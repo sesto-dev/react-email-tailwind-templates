@@ -1,0 +1,17 @@
+export const HIDDEN_EXTENSIONS = [
+  'adminpack',
+  'amcheck',
+  'file_fdw',
+  'lo',
+  'old_snapshot',
+  'pageinspect',
+  'pg_buffercache',
+  'pg_freespacemap',
+  'pg_prewarm',
+  'pg_surgery',
+  'pg_visibility',
+  'pgstattuple',
+  'supabase_vault',
+  'intagg',
+  'xml2',
+]
