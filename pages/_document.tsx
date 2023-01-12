@@ -1,32 +1,21 @@
-import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/document'
+import GoogleAnalytics from 'components/GoogleAnalytics'
+import { Html, Head, Main, NextScript } from 'next/document'
 
-class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext) {
-    const initialProps = await Document.getInitialProps(ctx)
-
-    return initialProps
-  }
-
-  render() {
+export default function Document() {
     return (
-      <Html>
-        <Head>
-          {/* Workaround for https://github.com/suren-atoyan/monaco-react/issues/272 */}
-          <link
-            rel="stylesheet"
-            type="text/css"
-            data-name="vs/editor/editor.main"
-            href="https://cdn.jsdelivr.net/npm/monaco-editor@0.28.1/min/vs/editor/editor.main.css"
-          />
-          <link rel="stylesheet" type="text/css" href="/css/fonts.css" />
-        </Head>
-        <body className="dark">
-          <Main />
-          <NextScript />
-        </body>
-      </Html>
+        <Html lang="en">
+            <Head>
+                <link href="/manifest.json" rel="manifest" />
+                <link href="/favicon.ico" rel="shortcut icon" />
+                <link href="/ios.png" rel="apple-touch-icon" />
+                <meta content="#0C0C0C" name="theme-color" />
+                <meta content="#0C0C0C" name="msapplication-TileColor" />
+                <GoogleAnalytics />
+            </Head>
+            <body className="bg-white text-black dark:bg-black dark:text-white">
+                <Main />
+                <NextScript />
+            </body>
+        </Html>
     )
-  }
 }
-
-export default MyDocument

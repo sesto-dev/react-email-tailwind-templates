@@ -1,6 +1,2 @@
-.expo
 .next
-node_modules
-package-lock.json
-docker*
-apps/**/out
+.vercel
