@@ -11,7 +11,7 @@ export default function Index({ blogs }) {
         return (
             <div className="flex flex-col border-neutral-200 dark:border-neutral-700">
                 <Meta
-                    title="Pasargad"
+                    title="Pardis"
                     description="Home Page"
                     image={Config.image}
                     canonical={process.env.NEXT_PUBLIC_URL}

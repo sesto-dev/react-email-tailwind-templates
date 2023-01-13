@@ -22,7 +22,7 @@ export default function Products({ currentPage, category, tags, sort }) {
     return (
         <>
             <Meta
-                title="Pasargad"
+                title="Pardis"
                 description="Home Page"
                 image={Config.image}
                 canonical={process.env.NEXT_PUBLIC_URL}

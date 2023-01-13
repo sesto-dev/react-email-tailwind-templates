@@ -67,7 +67,7 @@ export default function Header() {
                             setShowDrawer={setShowDrawer}
                             showDrawer={showDrawer}
                         />
-                        <NavItem href="/" text="Pasargad" />
+                        <NavItem href="/" text="Pardis" />
                         <NavItem href="/products" text="Products" />
                         <NavItem href="/blog" text="Blog" />
                         <NavItem href="/docs/welcome" text="Documentation" />
