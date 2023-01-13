@@ -12,7 +12,7 @@ export default function Document() {
                 <meta content="#0C0C0C" name="msapplication-TileColor" />
                 <GoogleAnalytics />
             </Head>
-            <body className="bg-white text-black dark:bg-black dark:text-white">
+            <body>
                 <Main />
                 <NextScript />
             </body>

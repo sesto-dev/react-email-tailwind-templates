@@ -95,16 +95,16 @@ const NavigationBar = ({}) => {
             style={{ height: '100vh' }}
             className={[
                 'flex w-14 flex-col justify-between overflow-y-hidden p-2',
-                'bg-sidebar-light dark:border-dark dark:bg-sidebar-dark border-r',
+                'bg-sidebar-light dark:bg-sidebar-dark border-r dark:border-neutral-700',
             ].join(' ')}
         >
             <ul className="flex flex-col space-y-2">
                 <Link
                     className={[
                         'transition-colors duration-200',
-                        'flex h-10 w-10 items-center justify-center rounded', // Layout
-                        'bg-scale-200 hover:bg-scale-500', // Light mode
-                        'text-scale-900 hover:text-scale-1200 ', // Dark mode
+                        'flex h-10 w-10 items-center justify-center rounded',
+                        'bg-scale-200 hover:bg-scale-500',
+                        'text-scale-900 hover:text-scale-1200 ',
                     ].join(' ')}
                     href="/projects"
                 >
@@ -158,9 +158,9 @@ const NavigationIconButton = ({ route, isActive = false }) => {
             href={route.link}
             className={[
                 'transition-colors duration-200',
-                'flex h-10 w-10 items-center justify-center rounded', // Layout
-                'bg-scale-200 hover:bg-scale-500', // Light mode
-                'text-scale-900 hover:text-scale-1200 ', // Dark mode
+                'flex h-10 w-10 items-center justify-center rounded',
+                'bg-scale-200 hover:bg-scale-500',
+                'text-scale-900 hover:text-scale-1200 ',
                 `${isActive ? 'bg-scale-500 text-scale-1200 shadow-sm' : ''}`,
             ].join(' ')}
         >
@@ -180,7 +180,7 @@ const LayoutHeader = ({
     return (
         <div
             className={`flex h-12 max-h-12 items-center justify-between py-2 px-5 ${
-                headerBorder ? 'dark:border-dark border-b' : ''
+                headerBorder ? 'border-b dark:border-neutral-700' : ''
             }`}
         >
             <div className="-ml-2 flex items-center text-sm">
@@ -249,7 +249,7 @@ const ProductMenuBar = ({ title }) => {
             className={[
                 'hide-scrollbar flex w-64 flex-col border-r', // Layout
                 'bg-sidebar-linkbar-light', // Light mode
-                'dark:bg-sidebar-linkbar-dark dark:border-dark ', // Dark mode
+                'dark:bg-sidebar-linkbar-dark dark:border-neutral-700 ', // Dark mode
             ].join(' ')}
         >
             <div

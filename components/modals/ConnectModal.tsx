@@ -2,11 +2,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { useAuth } from 'state/Auth'
-
 import { QuestionIcon } from 'components/Icons'
-
 import { MetamaskIcon, WalletConnectIcon } from 'components/Icons'
-
 import {
     useAccount,
     useConnect,
@@ -14,7 +11,7 @@ import {
     useEnsAvatar,
     useEnsName,
 } from 'wagmi'
-import Modal from './Modal'
+import Modal from 'components/modals/Modal'
 
 export default function ConnectModal({ modalVisibility, setModalVisibility }) {
     return (

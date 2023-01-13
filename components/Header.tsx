@@ -1,14 +1,4 @@
-import {
-    SunIcon,
-    MoonIcon,
-    UserPlusIcon,
-    UserIcon,
-    UserMinusIcon,
-    LanguageIcon,
-    ShoppingCartIcon,
-    MagnifyingGlassIcon,
-    Bars3Icon,
-} from '@heroicons/react/24/solid'
+import { Sun, Moon, UserPlus, User, Menu } from 'react-feather'
 
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
@@ -81,7 +71,7 @@ export default function Header() {
                                         type="button"
                                         className={`hidden md:flex ${getHeaderButtonStyles()}`}
                                     >
-                                        <UserIcon className="h-5 w-5" />
+                                        <User className="h-5 w-5" />
                                     </button>
                                 </Link>
                             ) : (
@@ -93,7 +83,7 @@ export default function Header() {
                                     type="button"
                                     className={`hidden md:flex ${getHeaderButtonStyles()}`}
                                 >
-                                    <UserPlusIcon className="h-5 w-5" />
+                                    <UserPlus className="h-5 w-5" />
                                 </button>
                             )}
                             <button
@@ -102,7 +92,7 @@ export default function Header() {
                                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-200 ring-neutral-300 transition-all hover:ring-2 dark:bg-neutral-700 md:hidden"
                                 onClick={() => setShowDrawer(true)}
                             >
-                                <Bars3Icon className="h-5 w-5 " />
+                                <Menu className="h-5 w-5 " />
                             </button>
                         </div>
                     )}
@@ -130,9 +120,9 @@ function ThemeButton() {
             }
         >
             {resolvedTheme === 'dark' ? (
-                <SunIcon className="h-5 w-5" />
+                <Sun className="h-5 w-5" />
             ) : (
-                <MoonIcon className="h-5 w-5" />
+                <Moon className="h-5 w-5" />
             )}
         </button>
     )

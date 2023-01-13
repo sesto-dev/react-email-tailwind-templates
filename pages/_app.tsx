@@ -1,5 +1,6 @@
 import 'styles/global.css'
 import 'styles/dropdown.css'
+import 'styles/toggle-group.css'
 
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'next-themes'
