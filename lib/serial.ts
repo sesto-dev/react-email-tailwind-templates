@@ -1,21 +1,21 @@
-export async function createSerialNumber(batch = 3) {
-    let voucher = ''
+export function createSerialNumber({ batch }) {
+	let voucher = ''
 
-    voucher = voucher.concat(generate())
-    for (let i = 1; i < batch; i++) {
-        voucher = voucher.concat('-')
-        voucher = voucher.concat(generate())
-    }
+	voucher = voucher.concat(generate())
+	for (let i = 1; i < batch; i++) {
+		voucher = voucher.concat('-')
+		voucher = voucher.concat(generate())
+	}
 
-    return voucher
+	return voucher
 }
 
 function generate() {
-    let generation = ''
+	let generation = ''
 
-    while (generation.length != 5) {
-        generation = Math.random().toString(36).slice(8).toUpperCase()
-    }
+	while (generation.length != 5) {
+		generation = Math.random().toString(36).slice(8).toUpperCase()
+	}
 
-    return generation
+	return generation
 }

@@ -11,9 +11,15 @@
 		"preview": "next build && next start -p 3001",
 		"typecheck": "tsc --noEmit",
 		"format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-		"format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
+		"format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+		"db:format": "npx prisma format",
+		"db:reset": "npx prisma db push --force-reset",
+		"db:push": "npx prisma db push",
+		"db:studio": "npx prisma studio",
+		"db:seed": "npm run db:reset && npx prisma db seed"
 	},
 	"dependencies": {
+		"@faker-js/faker": "^8.0.2",
 		"@hookform/resolvers": "^3.1.0",
 		"@prisma/client": "^4.13.0",
 		"@radix-ui/react-accessible-icon": "^1.0.1",
@@ -45,6 +51,7 @@
 		"@radix-ui/react-toggle-group": "^1.0.1",
 		"@radix-ui/react-tooltip": "^1.0.3",
 		"@tanstack/react-table": "^8.9.1",
+		"@types/nodemailer": "^6.4.8",
 		"@vercel/analytics": "^1.0.0",
 		"@vercel/og": "^0.0.21",
 		"bcryptjs": "^2.4.3",
@@ -53,11 +60,12 @@
 		"cmdk": "^0.2.0",
 		"cookie": "^0.5.0",
 		"date-fns": "^2.29.3",
-		"jose": "^4.14.1",
+		"jsonwebtoken": "^9.0.0",
 		"lucide-react": "0.154.0",
 		"next": "13.3.1-canary.8",
 		"next-pwa": "^5.6.0",
 		"next-themes": "^0.2.1",
+		"nodemailer": "^6.9.3",
 		"react": "^18.2.0",
 		"react-day-picker": "^8.6.0",
 		"react-dom": "^18.2.0",
@@ -70,6 +78,7 @@
 	},
 	"devDependencies": {
 		"@types/cookie": "^0.5.1",
+		"@types/jsonwebtoken": "^9.0.2",
 		"@types/node": "^17.0.12",
 		"@types/react": "^18.0.22",
 		"@types/react-color": "^3.0.6",
@@ -82,9 +91,7 @@
 		"shiki": "^0.12.1",
 		"tailwindcss": "^3.3.1",
 		"tailwindcss-animate": "^1.0.5",
-		"typescript": "^4.9.3",
-		"unist-builder": "3.0.0",
-		"unist-util-visit": "^4.1.1"
+		"typescript": "^4.9.3"
 	},
 	"peerDependencies": {
 		"esbuild": "^0.17.3"
