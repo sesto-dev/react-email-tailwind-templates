@@ -1,67 +1,76 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from "next"
 
-import prisma from '@/lib/prisma'
-import { createSerialNumber } from '@/lib/serial'
-import cookie from '@/lib/cookie'
-
-import { getGoogleTokens, getGoogleUser } from 'lib/google'
+import bakeCookie from "~lib/cookie"
+import { signJWT } from "~lib/jwt"
+import { getGoogleTokens, getGoogleUser } from "~lib/oauth/google"
+import prisma from "~lib/prisma"
+import { createSerialNumber } from "~lib/serial"
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-	const { id_token, access_token } = await getGoogleTokens({
-		code: req.query.code,
-	})
+  const { id_token, access_token } = await getGoogleTokens({
+    code: req.query.code
+  })
 
-	if (!id_token || !access_token) {
-		return res.redirect(502, '/')
-	}
+  if (!id_token || !access_token) {
+    return res.redirect(502, "/")
+  }
 
-	const { id, email, name } = await getGoogleUser({
-		id_token,
-		access_token,
-	})
+  const googleUserResponse = await getGoogleUser({
+    id_token,
+    access_token
+  })
 
-	console.log({ id, email, name })
+  const { id, email, name, picture } = googleUserResponse
 
-	if (!email) {
-		return res.redirect(502, '/')
-	}
+  if (!email) {
+    return res.redirect(502, "/")
+  }
 
-	const exists = await prisma.user.findUnique({
-		where: { email },
-	})
+  const exists = await prisma.user.findUnique({
+    where: { email }
+  })
 
-	if (exists) {
-		const AJWT = await cookie({
-			id: exists.id,
-			sameSite: 'Lax',
-		})
-		console.log('Google Authentication Successful.')
-		return res.setHeader('Set-Cookie', AJWT).redirect(302, '/user')
-	}
+  if (exists) {
+    const AJWT = await bakeCookie({
+      name: "AJWT",
+      content: await signJWT({
+        id: exists.id,
+        secret: process.env.ACCESS_TOKEN_SECRET,
+        expiresIn: "15m"
+      }),
+      sameSite: "Lax"
+    })
 
-	if (!exists) {
-		const referralCode = await createSerialNumber(3)
+    return res.setHeader("Set-Cookie", AJWT).redirect(302, "/")
+  }
 
-		const user = await prisma.user.create({
-			data: {
-				email,
-				name: name && name,
-				referralCode,
-			},
-		})
+  if (!exists) {
+    const referralCode = await createSerialNumber({ batch: 3 })
 
-		if (user) {
-			const AJWT = await cookie({
-				id: exists.id,
-				sameSite: 'Lax',
-			})
+    const user = await prisma.user.create({
+      data: {
+        email,
+        name,
+        referralCode,
+        picture
+      }
+    })
 
-			console.log('Google Authentication Successful.')
+    if (user) {
+      const AJWT = await bakeCookie({
+        name: "AJWT",
+        content: await signJWT({
+          id: exists.id,
+          secret: process.env.ACCESS_TOKEN_SECRET,
+          expiresIn: "15m"
+        }),
+        sameSite: "Lax"
+      })
 
-			return res.setHeader('Set-Cookie', AJWT).redirect(302, '/user')
-		} else {
-			console.log('Google Authentication Unsuccessful.')
-			return res.redirect(302, '/auth/error')
-		}
-	}
+      return res.setHeader("Set-Cookie", AJWT).redirect(302, "/user")
+    } else {
+      console.log("Google Authentication Unsuccessful.")
+      return res.redirect(302, "/auth/error")
+    }
+  }
 }

@@ -5,8 +5,8 @@ import '@/styles/globals.css'
 import { AuthProvider } from '@/state/Auth'
 import { Analytics } from '@/components/analytics'
 import { Toaster } from '@/components/ui/toaster'
-import { SiteHeader } from '@/components/site-header'
-import { SiteFooter } from '@/components/site-footer'
+import { SiteHeader } from '@/components/Header'
+import Footer from '@/components/Footer'
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
@@ -17,10 +17,12 @@ export default function App({ Component, pageProps }: AppProps) {
 					defaultTheme="system"
 					enableSystem
 				>
-					<div className="relative flex min-h-screen flex-col">
+					<div>
 						<SiteHeader />
-						<Component {...pageProps} />
-						<SiteFooter />
+						<div className="flex-col flex h-[88vh]">
+							<Component {...pageProps} />
+						</div>
+						<Footer />
 					</div>
 				</ThemeProvider>
 			</AuthProvider>
