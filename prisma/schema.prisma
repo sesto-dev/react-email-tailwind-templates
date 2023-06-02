@@ -8,13 +8,12 @@ datasource db {
 }
 
 model User {
-  id                String  @id @default(cuid())
+  id                String  @id @default(uuid())
   credit            Float   @default(0)
   email             String  @unique
   name              String?
-  referralCode      String? @unique
-  MFAMethod         String?
-  isMFA             Boolean @default(false)
+  referralCode      String @unique @default(uuid())
+
   isAdmin           Boolean @default(false)
   isBanned          Boolean @default(false)
   isEmailSubscribed Boolean @default(false)
@@ -22,41 +21,18 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  wallet String?  @unique
+  payments           Payment[]
+  subscription       Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId       String
 
-  discordId       String? @unique
-  invitesProvided DiscordInvite[] @relation("invitesProvided")
-  invitesConsumed DiscordInvite[] @relation("invitesConsumed")
-
-  discordGuilds     DiscordGuild[]
-  charges           Charge[]
-  referralsProvided Charge[]     @relation("referralsProvided")
-  referralsConsumed Charge[]     @relation("referralsConsumed")
+  referralsProvided String[]   
+  referralsConsumed String[]     
   blogPosts         BlogPost[]
   documentPages     DocumentPage[]
 }
 
-model DiscordInvite {
-  id               String       @id @default(cuid())
-
-  inviteProvider   User         @relation("invitesProvided", fields: [inviteProviderId], references: [id])
-  inviteProviderId String
-
-  inviteConsumer   User         @relation("invitesConsumed", fields: [inviteConsumerId], references: [id])
-  inviteConsumerId String
-
-  guild            DiscordGuild @relation(fields: [discordGuildId], references: [id])
-  discordGuildId   String
-}
-
-model DiscordGuild {
-  id             String          @id
-  users          User[]
-  discordInvites DiscordInvite[]
-}
-
-model Charge {
-  transactionId   String @id
+model Payment {
+  id   String @id
 
   payableAmount   Float
 
@@ -65,12 +41,32 @@ model Charge {
 
   user         User      @relation(fields: [userId], references: [id])
   userId       String
+}
 
-  referralProvider   User   @relation("referralsProvided", fields: [referralProviderId], references: [id])
-  referralProviderId String
-  
-  referralConsumer   User   @relation("referralsConsumed", fields: [referralConsumerId], references: [id])
-  referralConsumerId String
+model Product {
+  id   String @id
+  name String
+  description String
+  image String
+
+  price   Float
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+}
+
+model Subscription {
+  id   String @id
+
+  payableAmount   Float
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  expireAt  DateTime  
+
+  user         User[]
+  userId       String
 }
 
 model BlogPost {
@@ -102,15 +98,4 @@ model DocumentPage {
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
-}
-
-model CodexCharacter {
-  id           Int    @id
-  name         String
-  ability      String
-  armor        Int    @default(10)
-  power        Int    @default(10)
-  speed        Int    @default(10)
-  intelligence Int    @default(10)
-  luck         Int    @default(10)
 }
