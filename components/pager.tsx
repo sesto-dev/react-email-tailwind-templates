@@ -3,7 +3,7 @@ import { NavItem, NavItemWithChildren } from 'types/nav'
 
 import { docsConfig } from '@/config/docs'
 import { buttonVariants } from '@/components/ui/button'
-import { Icons } from '@/components/icons'
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 export function DocsPager({ doc }: { doc: any }) {
 	const pager = getPagerForDoc(doc)
@@ -19,7 +19,7 @@ export function DocsPager({ doc }: { doc: any }) {
 					href={pager.prev.href}
 					className={buttonVariants({ variant: 'outline' })}
 				>
-					<Icons.chevronLeft className="mr-2 h-4 w-4" />
+					<ChevronLeftIcon className="mr-2 h-4 w-4" />
 					{pager.prev.title}
 				</Link>
 			)}
@@ -29,7 +29,7 @@ export function DocsPager({ doc }: { doc: any }) {
 					className={buttonVariants({ variant: 'outline' })}
 				>
 					{pager.next.title}
-					<Icons.chevronRight className="ml-2 h-4 w-4" />
+					<ChevronRightIcon className="ml-2 h-4 w-4" />
 				</Link>
 			)}
 		</div>
