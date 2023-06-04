@@ -1,6 +1,6 @@
 export default function Footer() {
 	return (
-		<footer className="h-[5vh] w-full px-10 py-3  border-t flex justify-between">
+		<footer className="h-[5vh] w-full px-10 py-3 border-t flex justify-between">
 			<span className="text-sm text-gray-500">
 				© {new Date().getFullYear()} Andia™
 				<span className="invisible md:visible">

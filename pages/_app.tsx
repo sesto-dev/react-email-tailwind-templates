@@ -17,9 +17,9 @@ export default function App({ Component, pageProps }: AppProps) {
 					defaultTheme="system"
 					enableSystem
 				>
-					<div className="h-screen">
+					<div className="flex flex-col h-screen">
 						<SiteHeader />
-						<div className="h-[88vh]">
+						<div className="flex-col h-screen">
 							<Component {...pageProps} />
 						</div>
 						<Footer />

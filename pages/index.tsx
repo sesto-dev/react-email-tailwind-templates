@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { CalendarDateRangePicker } from '@/examples/dashboard/components/date-range-picker'
+import { Overview } from '@/examples/dashboard/components/overview'
 import { RecentSales } from '@/examples/dashboard/components/recent-sales'
 import { useState } from 'react'
 import DragAndDrop from '@/components/DragAndDrop'
@@ -56,7 +57,7 @@ export default function DashboardPage() {
 
 	const [cards, setCards] = useState(SmallCards)
 
-	function Overview() {
+	function OverviewCard() {
 		return (
 			<>
 				<div className="characters flex gap-4 w-full">
@@ -107,7 +108,7 @@ export default function DashboardPage() {
 	}
 
 	return (
-		<div className="h-full space-y-4 p-8 pt-6">
+		<div className="space-y-4 p-8 pt-6">
 			<div className="flex items-center justify-between space-y-2">
 				<h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
 				<div className="flex items-center space-x-2">
@@ -128,12 +129,26 @@ export default function DashboardPage() {
 					</TabsTrigger>
 				</TabsList>
 				<TabsContent value="overview" className="space-y-4">
-					<Overview />
+					<OverviewCard />
 				</TabsContent>
-				<TabsContent
-					value="analytics"
-					className="space-y-4"
-				></TabsContent>
+				<TabsContent value="analytics" className="space-y-4">
+					<div className="flex-col h-full w-[20vw] bg-red-500 border border-gray-800">
+						<div className="grid grid-cols-6 gap-4">
+							<div className="col-start-2 col-span-4 border border-neutral-100">
+								01
+							</div>
+							<div className="col-start-1 col-end-3 border border-neutral-100">
+								02
+							</div>
+							<div className="col-end-7 col-span-2 border border-neutral-100">
+								03
+							</div>
+							<div className="col-start-1 col-end-7 border border-neutral-100">
+								04
+							</div>
+						</div>
+					</div>
+				</TabsContent>
 			</Tabs>
 		</div>
 	)
