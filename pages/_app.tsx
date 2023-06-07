@@ -17,9 +17,15 @@ export default function App({ Component, pageProps }: AppProps) {
 					defaultTheme="system"
 					enableSystem
 				>
-					<div className="flex flex-col h-screen">
+					<div
+						className="flex flex-col h-screen"
+						style={{
+							background:
+								'radial-gradient(circle, rgba(2, 0, 36, 0) 0, var(--gray1) 100%)',
+						}}
+					>
 						<SiteHeader />
-						<div className="flex-col h-screen">
+						<div className="flex-col h-screen px-10">
 							<Component {...pageProps} />
 						</div>
 						<Footer />

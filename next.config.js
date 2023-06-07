@@ -9,7 +9,11 @@ const withPWA = require('next-pwa')({
 })
 
 module.exports = withPWA({
-	reactStrictMode: false,
+	reactStrictMode: true,
+	i18n: {
+		locales: ['en', 'fa'],
+		defaultLocale: 'fa',
+	},
 	images: {
 		remotePatterns: [
 			{

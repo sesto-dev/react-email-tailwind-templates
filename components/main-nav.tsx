@@ -4,7 +4,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { siteConfig } from '@/config/site'
+import siteConfig from '@/config'
 import { cn } from '@/lib/utils'
 
 export function MainNav() {

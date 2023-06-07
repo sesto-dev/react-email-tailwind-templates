@@ -1,13 +1,13 @@
-export const siteConfig = {
+export default {
 	name: 'Andia',
-	url: 'https://ui.shadcn.com',
+	handle: '@andia',
+	url: 'https://andia.com',
 	ogImage: 'https://ui.shadcn.com/og.jpg',
 	description:
 		'Beautifully designed components built with Radix UI and Tailwind CSS.',
 	links: {
 		twitter: 'https://twitter.com/shadcn',
-		github: 'https://github.com/shadcn/ui',
+		linkedin: 'https://linkedin.com/in/andia',
+		github: 'https://github.com/andia',
 	},
 }
-
-export type SiteConfig = typeof siteConfig

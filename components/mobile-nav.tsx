@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { SidebarOpen } from 'lucide-react'
 
 import { docsConfig } from '@/config/docs'
-import { siteConfig } from '@/config/site'
+import Config from '@/config'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -32,7 +32,7 @@ export function MobileNav() {
 					className="flex items-center"
 					onOpenChange={setOpen}
 				>
-					<span className="font-bold">{siteConfig.name}</span>
+					<span className="font-bold">{Config.name}</span>
 				</MobileLink>
 				<ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
 					<div className="flex flex-col space-y-3">
