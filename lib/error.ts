@@ -5,6 +5,5 @@ export async function handleError({
 	error: any
 	comment: string
 }) {
-	console.log({ error })
-	console.log({ comment })
+	console.log({ error, comment })
 }

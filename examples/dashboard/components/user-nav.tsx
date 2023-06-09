@@ -12,6 +12,7 @@ import {
 	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import Link from 'next/link'
 
 export function UserNav() {
 	return (
@@ -41,9 +42,16 @@ export function UserNav() {
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
 					<DropdownMenuItem>
-						<User className="mr-2 h-4 w-4" />
-						<span>Profile</span>
-						<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+						<Link
+							href="/profile"
+							className="flex justify-between w-full"
+						>
+							<div className="flex">
+								<User className="mr-2 h-4 w-4" />
+								<span>Profile</span>
+							</div>
+							<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+						</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem>
 						<CreditCard className="mr-2 h-4 w-4" />

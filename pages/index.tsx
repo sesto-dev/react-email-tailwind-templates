@@ -1,10 +1,9 @@
-import { Metadata } from 'next'
 import {
-	ActivityIcon,
-	CreditCardIcon,
-	DollarSignIcon,
+	CameraIcon,
 	Download,
-	UsersIcon,
+	ShareIcon,
+	TypeIcon,
+	VideoIcon,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -20,82 +19,87 @@ import { CalendarDateRangePicker } from '@/examples/dashboard/components/date-ra
 import { Overview } from '@/examples/dashboard/components/overview'
 import { RecentSales } from '@/examples/dashboard/components/recent-sales'
 import Meta from '@/components/Meta'
+import Link from 'next/link'
 
 export default function DashboardPage() {
-	const SmallCards = [
+	const AppCards = [
 		{
-			Title: 'Revenue',
-			Icon: DollarSignIcon,
-			Description: '$45,231.89',
-			Subtitle: '+20.1% from last month',
+			Title: 'Text to Image',
+			Icon: TypeIcon,
+			ContentSource:
+				'https://d3phaj0sisr2ct.cloudfront.net/site/videos/tool-text-image.mp4',
+			Description: 'Generate images from a text prompt.',
+			Path: '/apps/text-to-image',
 		},
 		{
-			Title: 'Subscriptions',
-			Icon: UsersIcon,
-			Description: '+2350',
-			Subtitle: '+180.1% from last month',
+			Title: 'Image to Image',
+			Icon: CameraIcon,
+			ContentSource:
+				'https://d3phaj0sisr2ct.cloudfront.net/site/videos/tool-text-image.mp4',
+			Description: 'Transform and edit images.',
+			Path: '/apps/image-to-image',
 		},
 		{
-			Title: 'Sales',
-			Icon: CreditCardIcon,
-			Description: '+12,234',
-			Subtitle: '+19% from last month',
-		},
-		{
-			Title: 'Active',
-			Icon: ActivityIcon,
-			Description: '+573',
-			Subtitle: '+201 since last hour',
+			Title: 'Video to Video',
+			Icon: VideoIcon,
+			ContentSource:
+				'https://d3phaj0sisr2ct.cloudfront.net/site/videos/tool-text-image.mp4',
+			Description: 'Transform and edit videos.',
+			Path: '/apps/video-to-video',
 		},
 	]
 
-	function OverviewCard() {
+	function Apps() {
 		return (
-			<>
-				<div className="characters flex gap-4 w-full">
-					{SmallCards.map(
-						({ Title, Icon, Description, Subtitle }, index) => (
-							<Card key={Title}>
-								<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-									<CardTitle className="text-sm font-medium">
-										{Title}
-									</CardTitle>
-									<Icon className="h-4 w-4 text-muted-foreground" />
-								</CardHeader>
-								<CardContent>
-									<div className="text-2xl font-bold">
-										{Description}
-									</div>
-									<p className="text-xs text-muted-foreground">
-										{Subtitle}
-									</p>
-								</CardContent>
-							</Card>
-						)
-					)}
-				</div>
-				<div className="flex gap-4 w-full">
-					<Card className="col-span-4">
-						<CardHeader>
-							<CardTitle>Overview</CardTitle>
-						</CardHeader>
-						<CardContent className="pl-2">
-							<Overview />
-						</CardContent>
-					</Card>
-					<Card className="col-span-3">
-						<CardHeader>
-							<CardTitle>Recent Sales</CardTitle>
-							<CardDescription>
-								You made 265 sales this month.
-							</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<RecentSales />
-						</CardContent>
-					</Card>
-				</div>
-			</>
+			<div className="flex gap-4 w-full">
+				{AppCards.map(
+					(
+						{ Title, Icon, ContentSource, Description, Path },
+						index
+					) => (
+						<Card key={Title}>
+							<video
+								className="masked"
+								style={{
+									width: '100%',
+									borderRadius: '10px',
+									objectFit: 'cover',
+								}}
+								preload="auto"
+								src={ContentSource}
+								playsInline={true}
+								loop={true}
+								draggable="false"
+								autoPlay={true}
+								muted={true}
+							/>
+							<CardHeader className="flex flex-row items-center justify-between space-y-0">
+								<CardTitle className="text-xs text-muted-foreground">
+									Generative AI Model
+								</CardTitle>
+								<Icon className="h-4 w-4 text-muted-foreground" />
+							</CardHeader>
+							<CardContent>
+								<div className="text-2xl font-bold mb-1">
+									{Title}
+								</div>
+								<p className="text-xs text-muted-foreground">
+									{Description}
+								</p>
+								<Link href={Path}>
+									<Button
+										variant="secondary"
+										size="sm"
+										className="mt-4 w-full"
+									>
+										Open App
+									</Button>
+								</Link>
+							</CardContent>
+						</Card>
+					)
+				)}
+			</div>
 		)
 	}
 
@@ -103,32 +107,23 @@ export default function DashboardPage() {
 		<div className="space-y-4 p-8 pt-6">
 			<Meta />
 			<div className="flex items-center justify-between space-y-2">
-				<h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+				<div>
+					<h2 className="text-3xl font-bold mb-2">Apps</h2>
+					<p className="text-sm text-muted-foreground">
+						Set of Apps to create Images from scratch or edit your
+						own content.
+					</p>
+				</div>
+
 				<div className="flex items-center space-x-2">
 					<CalendarDateRangePicker />
 					<Button size="sm">
-						<Download className="mr-2 h-4 w-4" />
-						Download
+						<ShareIcon className="mr-2 h-4 w-4" />
+						Share
 					</Button>
 				</div>
 			</div>
-			<Tabs defaultValue="overview" className="space-y-4">
-				<TabsList>
-					<TabsTrigger value="overview">Overview</TabsTrigger>
-					<TabsTrigger value="analytics">Analytics</TabsTrigger>
-					<TabsTrigger value="reports">Reports</TabsTrigger>
-					<TabsTrigger value="notifications">
-						Notifications
-					</TabsTrigger>
-				</TabsList>
-				<TabsContent value="overview" className="space-y-4">
-					<OverviewCard />
-				</TabsContent>
-				<TabsContent
-					value="analytics"
-					className="space-y-4"
-				></TabsContent>
-			</Tabs>
+			<Apps />
 		</div>
 	)
 }

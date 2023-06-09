@@ -10,7 +10,7 @@ export default function Document() {
 				<meta content="#0C0C0C" name="theme-color" />
 				<meta content="#0C0C0C" name="msapplication-TileColor" />
 			</Head>
-			<body className="min-h-screen bg-neutral-50 dark:bg-neutral-900 font-sans antialiased">
+			<body className="min-h-screen font-sans antialiased">
 				<Main />
 				<NextScript />
 			</body>

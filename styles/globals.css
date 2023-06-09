@@ -48,7 +48,7 @@
 	}
 
 	.dark {
-		--background: 224 0% 2%;
+		--background: 0 0% 1%;
 		--foreground: 213 31% 91%;
 
 		--muted: 223 0% 11%;
@@ -86,7 +86,17 @@
 		@apply border-border;
 	}
 	body {
+		@apply bg-background text-foreground;
 		font-feature-settings: 'rlig' 1, 'calt' 1;
+
+		--d: 0.2vh;
+
+		background: radial-gradient(
+				circle at var(--d) var(--d),
+				#212121 calc(var(--d) - 1px),
+				#0e0e0e var(--d)
+			)
+			0 0 / 4vh 4vh;
 	}
 }
 
@@ -116,4 +126,15 @@
 * {
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
+}
+
+.masked {
+	-webkit-mask-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		from(rgba(0, 0, 0, 1)),
+		to(rgba(0, 0, 0, 0))
+	);
+	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
