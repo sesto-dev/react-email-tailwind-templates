@@ -15,7 +15,7 @@
 
 @layer base {
 	:root {
-		--background: 0 0% 100%;
+		--background: 0 0% 96%;
 		--foreground: 222.2 47.4% 11.2%;
 
 		--muted: 210 40% 96.1%;
@@ -48,7 +48,7 @@
 	}
 
 	.dark {
-		--background: 0 0% 1%;
+		--background: 0 0% 4%;
 		--foreground: 213 31% 91%;
 
 		--muted: 223 0% 11%;
@@ -88,15 +88,6 @@
 	body {
 		@apply bg-background text-foreground;
 		font-feature-settings: 'rlig' 1, 'calt' 1;
-
-		--d: 0.2vh;
-
-		background: radial-gradient(
-				circle at var(--d) var(--d),
-				#212121 calc(var(--d) - 1px),
-				#0e0e0e var(--d)
-			)
-			0 0 / 4vh 4vh;
 	}
 }
 
@@ -137,4 +128,34 @@
 		to(rgba(0, 0, 0, 0))
 	);
 	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+
+.circle-obj {
+	background: radial-gradient(
+		closest-side,
+		rgb(233, 243, 179),
+		rgba(233, 168, 2, 0)
+	);
+	animation: traverse-up-left 16s ease-in-out infinite alternate;
+	z-index: -1;
+}
+
+.circle-obj2 {
+	background: radial-gradient(
+		closest-side,
+		rgb(255, 172, 204),
+		rgba(233, 168, 2, 0)
+	);
+	animation: traverse-up-right 20s ease-in-out infinite alternate;
+	z-index: -1;
+}
+
+.circle-obj3 {
+	background: radial-gradient(
+		closest-side,
+		rgb(179, 233, 235),
+		rgba(233, 168, 2, 0)
+	);
+	animation: traverse-down-left 12s ease-in-out infinite alternate;
+	z-index: -1;
 }

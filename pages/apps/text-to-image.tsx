@@ -3,6 +3,7 @@ import {
 	Activity,
 	Check,
 	ChevronsUpDown,
+	CircleIcon,
 	CreditCard,
 	DollarSign,
 	Download,
@@ -50,9 +51,11 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { capitalizeFirstLetter, cn } from '@/lib/utils'
 import Meta from '@/components/Meta'
+import { Progress } from '@/components/ui/progress'
+import { getRandomIntInRange } from '@/lib/rng'
 
 const frameworks = [
 	{
@@ -101,8 +104,8 @@ function Combobox() {
 			<PopoverContent className="w-full p-0">
 				<Command className="w-full">
 					<CommandInput placeholder="Choose prompt..." />
-					<CommandEmpty>No framework found.</CommandEmpty>
-					<CommandGroup>
+					<CommandEmpty>No prompt found.</CommandEmpty>
+					<CommandGroup className="w-full">
 						{frameworks.map((framework) => (
 							<CommandItem
 								className="w-full"
@@ -134,78 +137,112 @@ function Combobox() {
 	)
 }
 
-function OutputColumn() {
-	return (
-		<div className="col-span-1 w-full ">
-			<Card className="w-full ">
-				<CardHeader className="w-full ">
-					<CardTitle>Ouput Image</CardTitle>
-					<CardDescription>
-						Resulting Image from your prompt.
-					</CardDescription>
-				</CardHeader>
-				<CardContent className="w-full ">
-					<div className="bg-neutral-300"></div>
-				</CardContent>
-				<CardFooter className="flex justify-between">
-					<div className=""></div>
-					<Button disabled size="sm">
-						<Download className="mr-2 h-4 w-4" />
-						Download Image
-					</Button>
-				</CardFooter>
-			</Card>
-		</div>
-	)
-}
-
-function InputColumn() {
-	return (
-		<div className="col-span-1">
-			<Card className="w-full">
-				<CardHeader className="w-full">
-					<CardTitle>Image to Image App</CardTitle>
-					<CardDescription>
-						Deploy your new project in one-click.
-					</CardDescription>
-				</CardHeader>
-				<CardContent className="w-full">
-					<form>
-						<div className="grid w-full items-center gap-4">
-							<div className="flex flex-col space-y-1.5">
-								<Label htmlFor="name">Prompt</Label>
-								<Combobox />
-							</div>
-						</div>
-					</form>
-				</CardContent>
-				<CardFooter className="flex justify-between">
-					<div className=""></div>{' '}
-					<Button>
-						<EyeIcon className="mr-2 h-4 w-4" />
-						Render
-					</Button>
-				</CardFooter>
-			</Card>
-		</div>
-	)
-}
-
 export default function Page() {
 	const TabItems = ['app', 'history', 'guide', 'gallery']
+	const [progress, setProgress] = useState(0)
+	const [loading, setLoading] = useState(false)
+
+	function CallRender() {
+		setLoading(true)
+
+		setTimeout(() => {
+			setProgress((progress) => progress + 15)
+		}, getRandomIntInRange(1000, 10000))
+
+		setTimeout(() => {
+			setProgress((progress) => progress + 25)
+		}, getRandomIntInRange(1000, 10000))
+
+		setTimeout(() => {
+			setProgress((progress) => progress + 5)
+		}, getRandomIntInRange(1000, 10000))
+
+		setTimeout(() => {
+			setProgress((progress) => progress + 55)
+		}, getRandomIntInRange(1000, 10000))
+
+		setLoading(false)
+	}
+
+	function OutputColumn() {
+		return (
+			<div className="col-span-1 w-full ">
+				<Card className="w-full ">
+					<CardHeader className="w-full ">
+						<CardTitle>Ouput Image</CardTitle>
+						<CardDescription>
+							Resulting Image from your prompt.
+						</CardDescription>
+					</CardHeader>
+					<CardContent className="w-full ">
+						<div className="bg-neutral-300">
+							<Progress value={progress} />
+						</div>
+					</CardContent>
+					<CardFooter className="flex justify-between">
+						<div className=""></div>
+						<Button disabled size="sm">
+							<Download className="mr-2 h-4 w-4" />
+							Download Image
+						</Button>
+					</CardFooter>
+				</Card>
+			</div>
+		)
+	}
+
+	function InputColumn() {
+		return (
+			<div className="col-span-1">
+				<Card className="w-full">
+					<CardHeader className="w-full">
+						<CardTitle>Input Prompt</CardTitle>
+						<CardDescription>
+							Deploy your new project in one-click.
+						</CardDescription>
+					</CardHeader>
+					<CardContent className="w-full">
+						<form>
+							<div className="grid w-full items-center gap-4">
+								<div className="flex flex-col space-y-1.5">
+									<Label htmlFor="name">Prompt</Label>
+									<Combobox />
+								</div>
+							</div>
+						</form>
+					</CardContent>
+					<CardFooter className="flex justify-between">
+						<div />
+						<Button disabled={loading} onClick={CallRender}>
+							{loading ? (
+								<>
+									<CircleIcon className="mr-2 h-4 w-4 animate-spin" />
+									Loading...
+								</>
+							) : (
+								<>
+									<EyeIcon className="mr-2 h-4 w-4 " />
+									Render
+								</>
+							)}
+						</Button>
+					</CardFooter>
+				</Card>
+			</div>
+		)
+	}
 
 	return (
 		<div className="flex-col flex">
 			<Meta />
 			<div className="flex-1 space-y-4 p-8 pt-6">
 				<nav className="block" aria-label="Breadcrumb">
-					<h1 className="font-semibold text-xl">Image to Image</h1>
+					<h1 className="font-semibold text-xl">Text to Image</h1>
 					<p className="text-sm">
-						Edit, transform or stylize your images using a text
-						prompt.
+						Convert your text prompt to a beautiful image.
 					</p>
 				</nav>
-				<Tabs defaultValue="overview" className="space-y-4">
+				<Tabs defaultValue={TabItems[0]} className="space-y-4">
 					<TabsList>
 						{TabItems.map((TabItem) => (
 							<TabsTrigger value={TabItem}>
@@ -213,13 +250,13 @@ export default function Page() {
 							</TabsTrigger>
 						))}
 					</TabsList>
-					<TabsContent value="overview" className="space-y-4 ">
+					<TabsContent value="app" className="space-y-4 ">
 						<div className="grid gap-4 grid-cols-2 ">
 							<InputColumn />
 							<OutputColumn />
 						</div>
 					</TabsContent>
-					<TabsContent value="analytics" className="space-y-4 ">
+					<TabsContent value="history" className="space-y-4 ">
 						<div className="grid gap-4 grid-cols-2 ">
 							<TableDemo />
 						</div>
