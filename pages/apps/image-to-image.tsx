@@ -208,7 +208,7 @@ export default function Page() {
 				<Tabs defaultValue="overview" className="space-y-4">
 					<TabsList>
 						{TabItems.map((TabItem) => (
-							<TabsTrigger value={TabItem}>
+							<TabsTrigger key={TabItem} value={TabItem}>
 								{capitalizeFirstLetter(TabItem)}
 							</TabsTrigger>
 						))}

@@ -39,6 +39,7 @@ export function MainNav() {
 			<nav className="flex items-center space-x-6 text-sm font-medium">
 				{Links.map(({ path, title }) => (
 					<Link
+						key={title}
 						href={path}
 						className={cn(
 							'transition-colors hover:text-foreground/80',
