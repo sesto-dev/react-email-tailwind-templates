@@ -35,7 +35,7 @@ export default function DashboardPage() {
 			Title: 'Image to Image',
 			Icon: CameraIcon,
 			ContentSource:
-				'https://d3phaj0sisr2ct.cloudfront.net/site/videos/tool-text-image.mp4',
+				'https://secret-memories.s3-accelerate.amazonaws.com/user-videos/9ccd3e77-611b-484b-bc69-afd4e54353b4_clean_video_s3_key.mp4?AWSAccessKeyId=AKIASWOMRRLR5MHFG5RE&Expires=1687278696&Signature=dfSnwvzOZS6cBvgZ%2FEUsuO%2Fj2Bo%3D',
 			Description: 'Transform and edit images.',
 			Path: '/apps/image-to-image',
 		},
@@ -43,7 +43,7 @@ export default function DashboardPage() {
 			Title: 'Video to Video',
 			Icon: VideoIcon,
 			ContentSource:
-				'https://d3phaj0sisr2ct.cloudfront.net/site/videos/tool-text-image.mp4',
+				'https://secret-memories.s3-accelerate.amazonaws.com/user-videos/4318e959-810d-438c-9766-ec7136f3c2a1_clean_video_s3_key.mp4?AWSAccessKeyId=AKIASWOMRRLR5MHFG5RE&Expires=1687278690&Signature=CDoKSHgqFA9HnF1JlTjUNEZ82DI%3D',
 			Description: 'Transform and edit videos.',
 			Path: '/apps/video-to-video',
 		},
@@ -61,6 +61,7 @@ export default function DashboardPage() {
 							<video
 								className="masked"
 								style={{
+									height: '20rem',
 									width: '100%',
 									borderRadius: '10px',
 									objectFit: 'cover',

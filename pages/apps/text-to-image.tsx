@@ -143,7 +143,7 @@ export default function Page() {
 	const [loading, setLoading] = useState(false)
 
 	function CallRender() {
-		setLoading((loading) => !loading)
+		setLoading(!loading)
 
 		setTimeout(() => {
 			setProgress((progress) => progress + 15)
@@ -161,7 +161,7 @@ export default function Page() {
 			setProgress((progress) => progress + 55)
 		}, getRandomIntInRange(1000, 10000))
 
-		setLoading((loading) => !loading)
+		setLoading(!loading)
 	}
 
 	function OutputColumn() {
@@ -213,7 +213,7 @@ export default function Page() {
 					</CardContent>
 					<CardFooter className="flex justify-between">
 						<div />
-						{loading == false ? (
+						{!loading ? (
 							<Button onClick={CallRender}>
 								<EyeIcon className="mr-2 h-4 w-4 " />
 								Render
