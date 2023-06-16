@@ -8,7 +8,7 @@ export function SiteHeader() {
 		<header className="h-[7vh] w-full px-10 py-3 border-b flex items-center justify-between">
 			<MainNav />
 			<MobileNav />
-			<div className="flex items-center justify-between space-x-6">
+			<div className="flex items-center justify-between gap-6">
 				<CommandMenu />
 				<UserNav />
 			</div>

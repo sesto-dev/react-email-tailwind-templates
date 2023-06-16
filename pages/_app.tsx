@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'next-themes'
+import { useRouter } from 'next/router'
 
 import '@/styles/globals.css'
 import { Analytics } from '@/components/analytics'
@@ -8,12 +9,14 @@ import { SiteHeader } from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export default function App({ Component, pageProps }: AppProps) {
+	const { locale = 'fa' } = useRouter()
+
 	return (
 		<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 			<Circles />
-			<div className="flex flex-col h-screen">
+			<div className={`${locale == 'fa' && 'rtl'}`}>
 				<SiteHeader />
-				<div className="flex-col h-screen px-10">
+				<div className="px-10 mb-[5vh]">
 					<Component {...pageProps} />
 				</div>
 				<Footer />

@@ -80,31 +80,6 @@ export function UserNav() {
 						<span>Settings</span>
 						<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
 					</DropdownMenuItem>
-					<DropdownMenuSeparator />
-
-					<DropdownMenuItem>
-						<Select
-							onValueChange={(v) => {
-								setTheme(v)
-							}}
-						>
-							<SelectTrigger className="w-full">
-								<SelectValue placeholder="Theme" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem
-									onClick={() => setTheme('light')}
-									value="light"
-								>
-									Light
-								</SelectItem>
-								<SelectItem value="dark">
-									<span>Dark</span>
-								</SelectItem>
-								<SelectItem value="system">System</SelectItem>
-							</SelectContent>
-						</Select>
-					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>

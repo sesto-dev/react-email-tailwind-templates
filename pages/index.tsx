@@ -23,41 +23,57 @@ import Link from 'next/link'
 
 export default function DashboardPage() {
 	const AppCards = [
-		{
-			Title: 'Text to Image',
-			Icon: TypeIcon,
-			ContentSource:
-				'https://d3phaj0sisr2ct.cloudfront.net/site/videos/tool-text-image.mp4',
-			Description: 'Generate images from a text prompt.',
-			Path: '/apps/text-to-image',
-		},
-		{
-			Title: 'Image to Image',
-			Icon: CameraIcon,
-			ContentSource:
-				'https://secret-memories.s3-accelerate.amazonaws.com/user-videos/9ccd3e77-611b-484b-bc69-afd4e54353b4_clean_video_s3_key.mp4?AWSAccessKeyId=AKIASWOMRRLR5MHFG5RE&Expires=1687278696&Signature=dfSnwvzOZS6cBvgZ%2FEUsuO%2Fj2Bo%3D',
-			Description: 'Transform and edit images.',
-			Path: '/apps/image-to-image',
-		},
+		// {
+		// 	Title: 'Text to Image',
+		// 	Icon: TypeIcon,
+		// 	ContentSource:
+		// 		'https://d3phaj0sisr2ct.cloudfront.net/site/videos/tool-text-image.mp4',
+		// 	Description: 'Generate images from a text prompt.',
+		// 	Path: '/apps/text-to-image',
+		// },
+		// {
+		// 	Title: 'Image to Image',
+		// 	Icon: CameraIcon,
+		// 	ContentSource:
+		// 		'https://secret-memories.s3-accelerate.amazonaws.com/user-videos/9ccd3e77-611b-484b-bc69-afd4e54353b4_clean_video_s3_key.mp4?AWSAccessKeyId=AKIASWOMRRLR5MHFG5RE&Expires=1687278696&Signature=dfSnwvzOZS6cBvgZ%2FEUsuO%2Fj2Bo%3D',
+		// 	Description: 'Transform and edit images.',
+		// 	Path: '/apps/image-to-image',
+		// },
 		{
 			Title: 'Video to Video',
 			Icon: VideoIcon,
 			ContentSource:
-				'https://secret-memories.s3-accelerate.amazonaws.com/user-videos/4318e959-810d-438c-9766-ec7136f3c2a1_clean_video_s3_key.mp4?AWSAccessKeyId=AKIASWOMRRLR5MHFG5RE&Expires=1687278690&Signature=CDoKSHgqFA9HnF1JlTjUNEZ82DI%3D',
+				'https://cdn.dribbble.com/users/32512/screenshots/15330154/media/45a2e819d74c29eff978585835548630.mp4',
 			Description: 'Transform and edit videos.',
 			Path: '/apps/video-to-video',
+		},
+		{
+			Title: 'Text to Speech',
+			Icon: VideoIcon,
+			ContentSource:
+				'https://cdn.dribbble.com/userupload/4157958/file/original-b4ec39eeac91ab408d32b943a33c316f.mp4',
+			Description: 'Transform text to natural language.',
+			Path: '/apps/text-to-speech',
+		},
+		{
+			Title: 'Architecture',
+			Icon: VideoIcon,
+			ContentSource:
+				'https://cdn.dribbble.com/users/32512/screenshots/17066462/media/a1b8991f197da384b56f9b17c7a47c51.mp4',
+			Description: 'Transform text to natural language.',
+			Path: '/apps/architecture',
 		},
 	]
 
 	function Apps() {
 		return (
-			<div className="flex gap-4 w-full">
+			<div className="grid grid-cols-3 gap-4 w-full">
 				{AppCards.map(
 					(
 						{ Title, Icon, ContentSource, Description, Path },
 						index
 					) => (
-						<Card key={Title}>
+						<Card className="col-span-1" key={Title}>
 							<video
 								className="masked"
 								style={{
@@ -105,26 +121,28 @@ export default function DashboardPage() {
 	}
 
 	return (
-		<div className="space-y-4 p-8 pt-6">
-			<Meta />
-			<div className="flex items-center justify-between space-y-2">
-				<div>
-					<h2 className="text-3xl font-bold mb-2">Apps</h2>
-					<p className="text-sm text-muted-foreground">
-						Set of Apps to create Images from scratch or edit your
-						own content.
-					</p>
-				</div>
+		<div className="flex-col flex">
+			<div className="space-y-4 p-8 pt-6">
+				<Meta />
+				<div className="flex items-center justify-between space-y-2">
+					<div>
+						<h2 className="text-3xl font-bold mb-2">Apps</h2>
+						<p className="text-sm text-muted-foreground">
+							Set of Apps to create Images from scratch or edit
+							your own content.
+						</p>
+					</div>
 
-				<div className="flex items-center space-x-2">
-					<CalendarDateRangePicker />
-					<Button size="sm">
-						<ShareIcon className="mr-2 h-4 w-4" />
-						Share
-					</Button>
+					<div className="flex items-center space-x-2">
+						<CalendarDateRangePicker />
+						<Button size="sm">
+							<ShareIcon className="mr-2 h-4 w-4" />
+							Share
+						</Button>
+					</div>
 				</div>
+				<Apps />
 			</div>
-			<Apps />
 		</div>
 	)
 }
