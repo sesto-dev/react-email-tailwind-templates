@@ -1,14 +1,4 @@
-import Image from 'next/image'
-import {
-	Activity,
-	Check,
-	ChevronsUpDown,
-	CreditCard,
-	DollarSign,
-	Download,
-	EyeIcon,
-	Users,
-} from 'lucide-react'
+import { CircleSlashedIcon, Download, EyeIcon, TrashIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -20,209 +10,242 @@ import {
 	CardTitle,
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { CalendarDateRangePicker } from '@/examples/dashboard/components/date-range-picker'
-import { MainNav } from '@/examples/dashboard/components/main-nav'
-import { Overview } from '@/examples/dashboard/components/overview'
-import { RecentSales } from '@/examples/dashboard/components/recent-sales'
-import { Search } from '@/examples/dashboard/components/search'
-import TeamSwitcher from '@/examples/dashboard/components/team-switcher'
-import { UserNav } from '@/examples/dashboard/components/user-nav'
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select'
+
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { TableDemo } from '@/components/examples/table/demo'
 
-import {
-	Command,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-} from '@/components/ui/command'
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from '@/components/ui/popover'
 import { useState } from 'react'
 import { capitalizeFirstLetter, cn } from '@/lib/utils'
 import Meta from '@/components/Meta'
+import { Textarea } from '@/components/ui/textarea'
 
-const frameworks = [
-	{
-		value: 'next.js',
-		label: 'Next.js',
-	},
-	{
-		value: 'sveltekit',
-		label: 'SvelteKit',
-	},
-	{
-		value: 'nuxt.js',
-		label: 'Nuxt.js',
-	},
-	{
-		value: 'remix',
-		label: 'Remix',
-	},
-	{
-		value: 'astro',
-		label: 'Astro',
-	},
-]
+import { useRouter } from 'next/router'
+import { useTheme } from 'next-themes'
+import Gallery from '@/components/Gallery'
 
-function Combobox() {
-	const [open, setOpen] = useState(false)
-	const [value, setValue] = useState('')
+export default function Page() {
+	const TabItems = [
+		{
+			value: 'app',
+			english: 'Architecture AI Model - App',
+			persian: 'اپلیکیشن مدل هوش مصنوعی معماری',
+		},
+		{
+			value: 'gallery',
+			english: 'Gallery',
+			persian: 'گالری',
+		},
+		{
+			value: 'guide',
+			english: 'Guide',
+			persian: 'آموزش',
+		},
+		{
+			value: 'history',
+			english: 'History',
+			persian: 'تاریخچه',
+		},
+	]
+	const { locale = 'fa' } = useRouter()
+	const { theme } = useTheme()
 
-	return (
-		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger asChild>
-				<Button
-					variant="outline"
-					role="combobox"
-					aria-expanded={open}
-					className="w-full justify-between"
-				>
-					{value
-						? frameworks.find(
-								(framework) => framework.value === value
-						  )?.label
-						: 'Choose prompt...'}
-					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-				</Button>
-			</PopoverTrigger>
-			<PopoverContent className="w-full p-0">
-				<Command className="w-full">
-					<CommandInput placeholder="Choose prompt..." />
-					<CommandEmpty>No framework found.</CommandEmpty>
-					<CommandGroup>
-						{frameworks.map((framework) => (
-							<CommandItem
-								className="w-full"
-								key={framework.value}
-								onSelect={(currentValue) => {
-									setValue(
-										currentValue === value
-											? ''
-											: currentValue
-									)
-									setOpen(false)
-								}}
-							>
-								<Check
-									className={cn(
-										'mr-2 h-4 w-4',
-										value === framework.value
-											? 'opacity-100'
-											: 'opacity-0'
-									)}
-								/>
-								{framework.label}
-							</CommandItem>
-						))}
-					</CommandGroup>
-				</Command>
-			</PopoverContent>
-		</Popover>
-	)
-}
+	const [loading, setLoading] = useState(false)
+	const [prompt, setPrompt] = useState('')
+	const [selectedFile, setSelectedFile] = useState(null)
+	const [inputImage, setInputImage] = useState(null)
+	const [outputImage, setOutputImage] = useState(null)
 
-function OutputColumn() {
-	return (
-		<div className="col-span-1 w-full ">
-			<Card className="w-full ">
-				<CardHeader className="w-full ">
-					<CardTitle>Ouput Image</CardTitle>
+	const handleFileChange = (event) => {
+		const file = event.target.files[0]
+		setSelectedFile(file)
+
+		if (file && file.type.startsWith('image/')) {
+			setInputImage(URL.createObjectURL(file))
+		} else {
+			setInputImage(null)
+		}
+	}
+
+	function CallRender() {
+		setLoading(true)
+	}
+
+	function OutputColumn() {
+		return (
+			<Card className="col-span-1 w-full ">
+				{outputImage ? (
+					<img
+						style={{
+							height: '20rem',
+							width: '100%',
+							objectFit: 'cover',
+						}}
+						src={outputImage}
+						alt="Preview"
+					/>
+				) : (
+					<img
+						className="masked rounded-t-md"
+						style={{
+							height: '20rem',
+							width: '100%',
+							objectFit: 'cover',
+							filter: theme == 'dark' && 'invert(100)',
+						}}
+						src="https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder.png"
+						alt="Preview"
+					/>
+				)}
+				<CardHeader className="w-full mt-4">
+					<CardTitle>
+						{locale == 'fa' ? 'تصویر خروجی' : 'Output Image'}
+					</CardTitle>
 					<CardDescription>
 						Resulting Image from your prompt.
 					</CardDescription>
 				</CardHeader>
-				<CardContent className="w-full ">
-					<div className="bg-neutral-300"></div>
-				</CardContent>
-				<CardFooter className="flex justify-between">
-					<div className=""></div>
+
+				<CardFooter className="flex justify-between mt-10">
+					<div className="" />
 					<Button disabled size="sm">
 						<Download className="mr-2 h-4 w-4" />
 						Download Image
 					</Button>
 				</CardFooter>
 			</Card>
-		</div>
-	)
-}
+		)
+	}
 
-function InputColumn() {
-	return (
-		<div className="col-span-1">
-			<Card className="w-full">
-				<CardHeader className="w-full">
-					<CardTitle>Video to Video App</CardTitle>
+	function InputColumn() {
+		return (
+			<Card className="col-span-1 w-full ">
+				{inputImage ? (
+					<img
+						style={{
+							height: '20rem',
+							width: '100%',
+							objectFit: 'cover',
+						}}
+						src={inputImage}
+						alt="Preview"
+					/>
+				) : (
+					<img
+						className="masked rounded-t-xl"
+						style={{
+							height: '20rem',
+							width: '100%',
+							objectFit: 'cover',
+							filter: theme == 'dark' && 'invert(100)',
+						}}
+						src="https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder.png"
+						alt="Preview"
+					/>
+				)}
+				<CardHeader className="w-full mt-4">
+					<CardTitle>
+						{locale == 'fa' ? 'تنظیمات ورودی' : 'Input Prompt'}
+					</CardTitle>
 					<CardDescription>
-						Deploy your new project in one-click.
+						{locale == 'fa'
+							? 'تصویر مدل سه بعدی خود را با استفاده از صرفا یک جمله به رندری واقع گرایانه تبدیل کنید.'
+							: 'Convert your 3D model screenshot to a hyper-realistic rendering using a simple prompt.'}
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="w-full">
-					<form>
-						<div className="grid w-full items-center gap-4">
-							<div className="flex flex-col space-y-1.5">
-								<Label htmlFor="name">Prompt</Label>
-								<Combobox />
+					<div className="grid w-full items-center gap-4">
+						<div className="grid w-full items-center gap-1.5 ">
+							<Label htmlFor="picture">
+								{locale == 'fa' ? 'تصویر' : 'Picture'}
+							</Label>
+							<div className="flex gap-4 w-full">
+								<Input
+									className="w-full"
+									id="picture"
+									type="file"
+									onChange={handleFileChange}
+								/>
+								<Button
+									variant="outline"
+									onClick={() => setInputImage(null)}
+								>
+									<TrashIcon className="h-4 w-4" />
+								</Button>
 							</div>
 						</div>
-					</form>
+						<div className="grid w-full gap-1.5">
+							<Label htmlFor="message-2">
+								{locale == 'fa'
+									? 'تعریف رندر خروجی'
+									: 'Input Prompt'}
+							</Label>
+							<Textarea
+								placeholder="Type your prompt here."
+								id="message-2"
+								value={prompt}
+								onChange={(e) => setPrompt(e.target.value)}
+							/>
+						</div>
+					</div>
 				</CardContent>
 				<CardFooter className="flex justify-between">
-					<div className=""></div>{' '}
-					<Button>
-						<EyeIcon className="mr-2 h-4 w-4" />
-						Render
-					</Button>
+					<div />
+					{!loading ? (
+						<Button
+							disabled={prompt == '' || selectedFile == null}
+							onClick={CallRender}
+						>
+							<EyeIcon className="mr-2 h-4 w-4 " />
+							{locale == 'fa' ? 'رندر' : 'Render'}
+						</Button>
+					) : (
+						<Button disabled={true}>
+							<CircleSlashedIcon className="mr-2 h-4 w-4 animate-spin" />
+						</Button>
+					)}
 				</CardFooter>
 			</Card>
-		</div>
-	)
-}
-
-export default function Page() {
-	const TabItems = ['app', 'history', 'guide', 'gallery']
+		)
+	}
 
 	return (
 		<div className="flex-col flex">
 			<Meta />
 			<div className="flex-1 space-y-4 p-8 pt-6">
 				<nav className="block" aria-label="Breadcrumb">
-					<h1 className="font-semibold text-xl">Video to Video</h1>
+					<h1 className="font-semibold text-xl">
+						{locale == 'fa'
+							? 'مدل هوش مصنوعی معماری'
+							: 'Architectural AI Model'}
+					</h1>
 					<p className="text-sm">
-						Edit, transform or stylize your videos using a text
-						prompt.
+						{locale == 'fa'
+							? 'مدل 3 بعدی معماری خود را به رندر واقع گرایانه تبدیل کنید.'
+							: 'Convert your 3D model screenshot to a hyper-realistic render.'}
 					</p>
 				</nav>
-				<Tabs defaultValue="overview" className="space-y-4">
+				<Tabs defaultValue={TabItems[0]['value']} className="space-y-4">
 					<TabsList>
-						{TabItems.map((TabItem) => (
-							<TabsTrigger key={TabItem} value={TabItem}>
-								{capitalizeFirstLetter(TabItem)}
+						{TabItems.map(({ value, english, persian }) => (
+							<TabsTrigger key={value} value={value}>
+								{locale == 'fa' ? persian : english}
 							</TabsTrigger>
 						))}
 					</TabsList>
-					<TabsContent value="overview" className="space-y-4 ">
+					<TabsContent value="app" className="space-y-4 ">
 						<div className="grid gap-4 grid-cols-2 ">
 							<InputColumn />
 							<OutputColumn />
 						</div>
 					</TabsContent>
-					<TabsContent value="analytics" className="space-y-4 ">
+					<TabsContent value="history" className="space-y-4 ">
 						<div className="grid gap-4 grid-cols-2 ">
 							<TableDemo />
 						</div>
+					</TabsContent>
+					<TabsContent value="gallery" className="space-y-4 ">
+						<Gallery />
 					</TabsContent>
 				</Tabs>
 			</div>

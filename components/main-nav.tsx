@@ -6,26 +6,32 @@ import { usePathname } from 'next/navigation'
 
 import Config from '@/config'
 import { cn } from '@/lib/utils'
+import { useRouter } from 'next/router'
 
 export function MainNav() {
 	const pathname = usePathname()
+	const { locale = 'fa' } = useRouter()
 
 	const Links = [
 		{
 			path: '/apps',
-			title: 'Apps',
+			english: 'Apps',
+			persian: 'اپلیکیشن ها',
 		},
 		{
 			path: '/gallery',
-			title: 'Gallery',
+			english: 'Gallery',
+			persian: 'گالری',
 		},
 		{
 			path: '/about',
-			title: 'About',
+			english: 'About',
+			persian: 'درباره ما',
 		},
 		{
 			path: '/contact',
-			title: 'Contact',
+			english: 'Contact',
+			persian: 'تماس',
 		},
 	]
 
@@ -33,13 +39,13 @@ export function MainNav() {
 		<div className="hidden md:flex gap-6">
 			<Link href="/" className="flex items-center space-x-2">
 				<span className="hidden font-bold sm:inline-block">
-					{Config.name}
+					{locale == 'fa' ? 'آندیا' : 'Andia'}
 				</span>
 			</Link>
 			<nav className="flex items-center gap-6 text-sm font-medium">
-				{Links.map(({ path, title }) => (
+				{Links.map(({ path, english, persian }) => (
 					<Link
-						key={title}
+						key={english}
 						href={path}
 						className={cn(
 							'transition-colors hover:text-foreground/80',
@@ -48,7 +54,7 @@ export function MainNav() {
 								: 'text-foreground/60'
 						)}
 					>
-						{title}
+						{locale == 'fa' ? persian : english}
 					</Link>
 				))}
 			</nav>

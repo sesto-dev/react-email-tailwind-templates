@@ -1,10 +1,4 @@
-import {
-	CameraIcon,
-	Download,
-	ShareIcon,
-	TypeIcon,
-	VideoIcon,
-} from 'lucide-react'
+import { VideoIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -14,14 +8,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { CalendarDateRangePicker } from '@/examples/dashboard/components/date-range-picker'
-import { Overview } from '@/examples/dashboard/components/overview'
-import { RecentSales } from '@/examples/dashboard/components/recent-sales'
 import Meta from '@/components/Meta'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function DashboardPage() {
+	const { locale = 'fa' } = useRouter()
+
 	const AppCards = [
 		// {
 		// 	Title: 'Text to Image',
@@ -40,27 +33,36 @@ export default function DashboardPage() {
 		// 	Path: '/apps/image-to-image',
 		// },
 		{
-			Title: 'Video to Video',
+			Title: { en: 'Video to Video', fa: 'ادیت ویدیو' },
 			Icon: VideoIcon,
 			ContentSource:
 				'https://cdn.dribbble.com/users/32512/screenshots/15330154/media/45a2e819d74c29eff978585835548630.mp4',
-			Description: 'Transform and edit videos.',
+			Description: {
+				en: 'Transform and edit videos.',
+				fa: 'ویدیو های خود را با کمک هوش مصنوعی ادیت کنید.',
+			},
 			Path: '/apps/video-to-video',
 		},
 		{
-			Title: 'Text to Speech',
+			Title: { en: 'Text to Speech', fa: 'تبدیل به متن صدا' },
 			Icon: VideoIcon,
 			ContentSource:
 				'https://cdn.dribbble.com/userupload/4157958/file/original-b4ec39eeac91ab408d32b943a33c316f.mp4',
-			Description: 'Transform text to natural language.',
+			Description: {
+				en: 'Transform text to natural sounding audio.',
+				fa: 'متن خود را با کمک هوش مصنوعی به صدا تبدیل کنید.',
+			},
 			Path: '/apps/text-to-speech',
 		},
 		{
-			Title: 'Architecture',
+			Title: { en: 'Architecture', fa: 'رندر معماری' },
 			Icon: VideoIcon,
 			ContentSource:
 				'https://cdn.dribbble.com/users/32512/screenshots/17066462/media/a1b8991f197da384b56f9b17c7a47c51.mp4',
-			Description: 'Transform text to natural language.',
+			Description: {
+				en: 'Transform 3D Models to hyper-realistic renders.',
+				fa: 'مدل 3 بعدی معماری خود در چندین ثانیه را به رندری واقع گرایانه تبدیل کنید',
+			},
 			Path: '/apps/architecture',
 		},
 	]
@@ -73,37 +75,39 @@ export default function DashboardPage() {
 						{ Title, Icon, ContentSource, Description, Path },
 						index
 					) => (
-						<Card className="col-span-1" key={Title}>
-							<video
-								className="masked"
-								style={{
-									height: '20rem',
-									width: '100%',
-									borderRadius: '10px',
-									objectFit: 'cover',
-								}}
-								preload="auto"
-								src={ContentSource}
-								playsInline={true}
-								loop={true}
-								draggable="false"
-								autoPlay={true}
-								muted={true}
-							/>
-							<CardHeader className="flex flex-row items-center justify-between space-y-0">
-								<CardTitle className="text-xs text-muted-foreground">
-									Generative AI Model
-								</CardTitle>
-								<Icon className="h-4 w-4 text-muted-foreground" />
-							</CardHeader>
-							<CardContent>
-								<div className="text-2xl font-bold mb-1">
-									{Title}
-								</div>
-								<p className="text-xs text-muted-foreground">
-									{Description}
-								</p>
-								<Link href={Path}>
+						<Link href={Path}>
+							<Card className="col-span-1" key={Title['en']}>
+								<video
+									className="masked"
+									style={{
+										height: '20rem',
+										width: '100%',
+										borderRadius: '10px',
+										objectFit: 'cover',
+									}}
+									preload="auto"
+									src={ContentSource}
+									playsInline={true}
+									loop={true}
+									draggable="false"
+									autoPlay={true}
+									muted={true}
+								/>
+								<CardHeader className="flex flex-row items-center justify-between space-y-0">
+									<CardTitle className="text-xs text-muted-foreground">
+										{locale == 'fa'
+											? 'مدل هوش مصنوعی'
+											: 'Generative AI Model'}
+									</CardTitle>
+									<Icon className="h-4 w-4 text-muted-foreground" />
+								</CardHeader>
+								<CardContent>
+									<div className="text-2xl font-bold mb-1">
+										{Title[locale]}
+									</div>
+									<p className="text-xs text-muted-foreground">
+										{Description[locale]}
+									</p>
 									<Button
 										variant="secondary"
 										size="sm"
@@ -111,9 +115,9 @@ export default function DashboardPage() {
 									>
 										Open App
 									</Button>
-								</Link>
-							</CardContent>
-						</Card>
+								</CardContent>
+							</Card>
+						</Link>
 					)
 				)}
 			</div>
@@ -122,23 +126,18 @@ export default function DashboardPage() {
 
 	return (
 		<div className="flex-col flex">
-			<div className="space-y-4 p-8 pt-6">
+			<div className="space-y-4 pt-6">
 				<Meta />
 				<div className="flex items-center justify-between space-y-2">
 					<div>
-						<h2 className="text-3xl font-bold mb-2">Apps</h2>
+						<h2 className="text-3xl font-bold mb-2">
+							{locale == 'fa' ? 'اپلیکیشن ها' : 'Apps'}
+						</h2>
 						<p className="text-sm text-muted-foreground">
-							Set of Apps to create Images from scratch or edit
-							your own content.
+							{locale == 'fa'
+								? 'مجموعه اپلیکیشن هایی ساخته شده برای به کارگیری قدرت هوش مصنوعی'
+								: 'Set of Apps created to harness the power of AI.'}
 						</p>
-					</div>
-
-					<div className="flex items-center space-x-2">
-						<CalendarDateRangePicker />
-						<Button size="sm">
-							<ShareIcon className="mr-2 h-4 w-4" />
-							Share
-						</Button>
 					</div>
 				</div>
 				<Apps />

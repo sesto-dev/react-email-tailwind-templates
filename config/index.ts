@@ -1,12 +1,14 @@
 export default {
-	name: 'Andia',
+	name: { en: 'Andia', fa: 'آندیا' },
 	handle: '@andia',
 	url: 'https://andia.com',
 	ogImage: 'https://ui.shadcn.com/og.jpg',
-	description:
-		'Beautifully designed components built with Radix UI and Tailwind CSS.',
+	description: {
+		en: 'Number 1 AI Platform in Iran.',
+		fa: 'پلتفرم جامع هوش مصنوعی ایران',
+	},
 	links: {
-		twitter: 'https://twitter.com/shadcn',
+		twitter: 'https://twitter.com/andia-ai',
 		linkedin: 'https://linkedin.com/in/andia',
 		github: 'https://github.com/andia',
 	},

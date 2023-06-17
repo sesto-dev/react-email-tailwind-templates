@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react'
-import { useRouter } from 'next/navigation'
 import { DialogProps } from '@radix-ui/react-alert-dialog'
 import { Circle, File, Laptop, Moon, SunMedium } from 'lucide-react'
 import { useTheme } from 'next-themes'
@@ -18,11 +17,13 @@ import {
 	CommandList,
 	CommandSeparator,
 } from '@/components/ui/command'
+import { useRouter } from 'next/router'
 
 export function CommandMenu({ ...props }: DialogProps) {
 	const router = useRouter()
 	const [open, setOpen] = React.useState(false)
 	const { setTheme } = useTheme()
+	const { locale = 'fa' } = useRouter()
 
 	React.useEffect(() => {
 		const down = (e: KeyboardEvent) => {
@@ -51,7 +52,9 @@ export function CommandMenu({ ...props }: DialogProps) {
 				onClick={() => setOpen(true)}
 				{...props}
 			>
-				<span className="inline-flex">Search...</span>
+				<span className="inline-flex">
+					{locale == 'fa' ? 'جستجو' : 'Search...'}
+				</span>
 				<kbd className="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
 					<span className="text-xs">⌘</span>K
 				</kbd>

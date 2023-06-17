@@ -21,20 +21,7 @@ import {
 	CardTitle,
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { CalendarDateRangePicker } from '@/examples/dashboard/components/date-range-picker'
-import { MainNav } from '@/examples/dashboard/components/main-nav'
-import { Overview } from '@/examples/dashboard/components/overview'
-import { RecentSales } from '@/examples/dashboard/components/recent-sales'
-import { Search } from '@/examples/dashboard/components/search'
-import TeamSwitcher from '@/examples/dashboard/components/team-switcher'
-import { UserNav } from '@/examples/dashboard/components/user-nav'
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select'
+
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { TableDemo } from '@/components/examples/table/demo'
@@ -56,6 +43,7 @@ import { capitalizeFirstLetter, cn } from '@/lib/utils'
 import Meta from '@/components/Meta'
 import { Progress } from '@/components/ui/progress'
 import { getRandomIntInRange } from '@/lib/rng'
+import { useRouter } from 'next/router'
 
 const frameworks = [
 	{
@@ -138,6 +126,8 @@ function Combobox() {
 }
 
 export default function Page() {
+	const { locale = 'fa' } = useRouter()
+
 	const TabItems = ['app', 'history', 'guide', 'gallery']
 	const [progress, setProgress] = useState(0)
 	const [loading, setLoading] = useState(false)
@@ -196,9 +186,13 @@ export default function Page() {
 			<div className="col-span-1">
 				<Card className="w-full">
 					<CardHeader className="w-full">
-						<CardTitle>Input Prompt</CardTitle>
+						<CardTitle>
+							{locale == 'fa' ? 'تعریف' : 'Input Prompt'}
+						</CardTitle>
 						<CardDescription>
-							Deploy your new project in one-click.
+							{locale == 'fa'
+								? 'متن خود را صدای طبیعی فارسی تبدیل کنید.'
+								: 'Convert your text input to natural audio.'}
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="w-full">

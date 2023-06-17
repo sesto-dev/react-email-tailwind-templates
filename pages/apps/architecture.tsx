@@ -1,4 +1,4 @@
-import { CircleSlashedIcon, Download, EyeIcon, TrashIcon } from 'lucide-react'
+import { Download, ImageIcon, RotateCwIcon, TrashIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -15,17 +15,38 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { TableDemo } from '@/components/examples/table/demo'
 
-import { useState } from 'react'
-import { capitalizeFirstLetter, cn } from '@/lib/utils'
+import { useEffect, useRef, useState } from 'react'
 import Meta from '@/components/Meta'
 import { Textarea } from '@/components/ui/textarea'
 
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
+import Gallery from '@/components/Gallery'
+import { getRandomIntInRange } from '@/lib/rng'
 
 export default function Page() {
-	const TabItems = ['app', 'history', 'guide', 'gallery']
-
+	const TabItems = [
+		{
+			value: 'app',
+			english: 'Architecture AI Model - App',
+			persian: 'اپلیکیشن مدل هوش مصنوعی معماری',
+		},
+		{
+			value: 'gallery',
+			english: 'Gallery',
+			persian: 'گالری',
+		},
+		{
+			value: 'guide',
+			english: 'Guide',
+			persian: 'آموزش',
+		},
+		{
+			value: 'history',
+			english: 'History',
+			persian: 'تاریخچه',
+		},
+	]
 	const { locale = 'fa' } = useRouter()
 	const { theme } = useTheme()
 
@@ -34,6 +55,12 @@ export default function Page() {
 	const [selectedFile, setSelectedFile] = useState(null)
 	const [inputImage, setInputImage] = useState(null)
 	const [outputImage, setOutputImage] = useState(null)
+
+	const loadingRef = useRef(loading)
+
+	useEffect(() => {
+		loadingRef.current = loading
+	}, [loading])
 
 	const handleFileChange = (event) => {
 		const file = event.target.files[0]
@@ -47,7 +74,15 @@ export default function Page() {
 	}
 
 	function CallRender() {
-		setLoading(true)
+		setLoading(!loadingRef.current)
+
+		setTimeout(() => {
+			setOutputImage(
+				'https://static.dezeen.com/uploads/2022/11/ai-feature_dezeen_1704_hero-1704x959.jpg'
+			)
+
+			setLoading(!loadingRef.current)
+		}, getRandomIntInRange(4000, 10000))
 	}
 
 	function OutputColumn() {
@@ -77,9 +112,13 @@ export default function Page() {
 					/>
 				)}
 				<CardHeader className="w-full mt-4">
-					<CardTitle>Ouput Image</CardTitle>
+					<CardTitle>
+						{locale == 'fa' ? 'تصویر خروجی' : 'Output Image'}
+					</CardTitle>
 					<CardDescription>
-						Resulting Image from your prompt.
+						{locale == 'fa'
+							? 'تصویر ساخته شده با توجه درخواست شما'
+							: 'Resulting image from your request.'}
 					</CardDescription>
 				</CardHeader>
 
@@ -87,7 +126,7 @@ export default function Page() {
 					<div className="" />
 					<Button disabled size="sm">
 						<Download className="mr-2 h-4 w-4" />
-						Download Image
+						{locale == 'fa' ? 'دانلود تصویر' : 'Download Image'}
 					</Button>
 				</CardFooter>
 			</Card>
@@ -121,7 +160,9 @@ export default function Page() {
 					/>
 				)}
 				<CardHeader className="w-full mt-4">
-					<CardTitle>Input Prompt</CardTitle>
+					<CardTitle>
+						{locale == 'fa' ? 'تنظیمات ورودی' : 'Input Prompt'}
+					</CardTitle>
 					<CardDescription>
 						{locale == 'fa'
 							? 'تصویر مدل سه بعدی خود را با استفاده از صرفا یک جمله به رندری واقع گرایانه تبدیل کنید.'
@@ -131,7 +172,9 @@ export default function Page() {
 				<CardContent className="w-full">
 					<div className="grid w-full items-center gap-4">
 						<div className="grid w-full items-center gap-1.5 ">
-							<Label htmlFor="picture">Picture</Label>
+							<Label htmlFor="picture">
+								{locale == 'fa' ? 'تصویر' : 'Picture'}
+							</Label>
 							<div className="flex gap-4 w-full">
 								<Input
 									className="w-full"
@@ -148,9 +191,17 @@ export default function Page() {
 							</div>
 						</div>
 						<div className="grid w-full gap-1.5">
-							<Label htmlFor="message-2">Prompt</Label>
+							<Label htmlFor="message-2">
+								{locale == 'fa'
+									? 'توصیف رندر خروجی'
+									: 'Input Prompt'}
+							</Label>
 							<Textarea
-								placeholder="Type your prompt here."
+								placeholder={
+									locale == 'fa'
+										? 'توصیف مورد نظر خود از تصویر خروجی را اینجا بنویسید. '
+										: 'Type your prompt here.'
+								}
 								id="message-2"
 								value={prompt}
 								onChange={(e) => setPrompt(e.target.value)}
@@ -160,20 +211,20 @@ export default function Page() {
 				</CardContent>
 				<CardFooter className="flex justify-between">
 					<div />
-					{!loading ? (
-						<Button
-							disabled={prompt == '' || selectedFile == null}
-							onClick={CallRender}
-						>
-							<EyeIcon className="mr-2 h-4 w-4 " />
-							Render
-						</Button>
-					) : (
-						<Button disabled={true}>
-							<CircleSlashedIcon className="mr-2 h-4 w-4 animate-spin" />
-							Loading...
-						</Button>
-					)}
+
+					<Button
+						disabled={
+							prompt == '' || selectedFile == null || loading
+						}
+						onClick={CallRender}
+					>
+						{loading ? (
+							<RotateCwIcon className="mr-2 h-4 w-4 animate-spin" />
+						) : (
+							<ImageIcon className="mr-2 h-4 w-4 " />
+						)}
+						{locale == 'fa' ? 'رندر' : 'Render'}
+					</Button>
 				</CardFooter>
 			</Card>
 		)
@@ -182,7 +233,7 @@ export default function Page() {
 	return (
 		<div className="flex-col flex">
 			<Meta />
-			<div className="flex-1 space-y-4 p-8 pt-6">
+			<div className="flex-1 space-y-4 pt-6">
 				<nav className="block" aria-label="Breadcrumb">
 					<h1 className="font-semibold text-xl">
 						{locale == 'fa'
@@ -190,14 +241,16 @@ export default function Page() {
 							: 'Architectural AI Model'}
 					</h1>
 					<p className="text-sm">
-						Convert your text prompt to a beautiful image.
+						{locale == 'fa'
+							? 'مدل 3 بعدی معماری خود را به رندر واقع گرایانه تبدیل کنید.'
+							: 'Convert your 3D model screenshot to a hyper-realistic render.'}
 					</p>
 				</nav>
-				<Tabs defaultValue={TabItems[0]} className="space-y-4">
+				<Tabs defaultValue={TabItems[0]['value']} className="space-y-4">
 					<TabsList>
-						{TabItems.map((TabItem) => (
-							<TabsTrigger key={TabItem} value={TabItem}>
-								{capitalizeFirstLetter(TabItem)}
+						{TabItems.map(({ value, english, persian }) => (
+							<TabsTrigger key={value} value={value}>
+								{locale == 'fa' ? persian : english}
 							</TabsTrigger>
 						))}
 					</TabsList>
@@ -211,6 +264,9 @@ export default function Page() {
 						<div className="grid gap-4 grid-cols-2 ">
 							<TableDemo />
 						</div>
+					</TabsContent>
+					<TabsContent value="gallery" className="space-y-4 ">
+						<Gallery />
 					</TabsContent>
 				</Tabs>
 			</div>

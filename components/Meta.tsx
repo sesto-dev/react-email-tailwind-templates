@@ -1,5 +1,6 @@
 import Config from '@/config'
 import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
 
 const { name, handle, description: cDescription, url, ogImage } = Config
 
@@ -8,15 +9,17 @@ export default function Meta({
 	description = cDescription,
 	image = ogImage,
 }) {
+	const { locale = 'fa' } = useRouter()
+
 	return (
 		<NextSeo
-			title={title}
-			description={description}
+			title={title[locale]}
+			description={description[locale]}
 			canonical={url}
 			openGraph={{
 				url,
-				title,
-				description,
+				title: title[locale],
+				description: description[locale],
 				images: [
 					{
 						url: image,
@@ -26,7 +29,7 @@ export default function Meta({
 						type: 'image/jpeg',
 					},
 				],
-				siteName: name,
+				siteName: name[locale],
 			}}
 			twitter={{
 				handle,
