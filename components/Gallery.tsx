@@ -8,8 +8,10 @@ import {
 } from '@/components/ui/card'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import CompareImage from '@/components/CompareImage'
+import architecture from '@/data/architecture'
 
-export default function Gallery() {
+export default function Gallery({ comparison = false }) {
 	const { locale = 'fa' } = useRouter()
 
 	const AppCards = [
@@ -47,33 +49,59 @@ export default function Gallery() {
 
 	return (
 		<div className="grid grid-cols-3 gap-4 w-full">
-			{AppCards.map(({ Title, ContentSource, Description }, index) => (
-				<Card className="col-span-1" key={Title}>
-					<video
-						className="masked"
-						style={{
-							height: '20rem',
-							width: '100%',
-							borderRadius: '10px',
-							objectFit: 'cover',
-						}}
-						preload="auto"
-						src={ContentSource}
-						playsInline={true}
-						loop={true}
-						draggable="false"
-						autoPlay={true}
-						muted={true}
-					/>
-					<CardContent>
-						<div className="text-xl font-bold mb-1">{Title}</div>
-						<p className="text-xs text-muted-foreground">
-							{Description}
-						</p>
-						<div className=""></div>
-					</CardContent>
-				</Card>
-			))}
+			{comparison
+				? architecture.map(({ input, output }, index) => (
+						<Card className="col-span-1" key={input}>
+							<div className="relative h-[20rem] w-full rounded-lg">
+								<CompareImage
+									key={input}
+									leftImage={input}
+									rightImage={output}
+									sliderPositionPercentage={0.25}
+								/>
+							</div>
+							<CardContent>
+								<div className="text-xl font-bold mb-1">
+									Architecture
+								</div>
+								<p className="text-xs text-muted-foreground">
+									Model
+								</p>
+								<div className=""></div>
+							</CardContent>
+						</Card>
+				  ))
+				: AppCards.map(
+						({ Title, ContentSource, Description }, index) => (
+							<Card className="col-span-1" key={Title}>
+								<video
+									className="masked"
+									style={{
+										height: '20rem',
+										width: '100%',
+										borderRadius: '10px',
+										objectFit: 'cover',
+									}}
+									preload="auto"
+									src={ContentSource}
+									playsInline={true}
+									loop={true}
+									draggable="false"
+									autoPlay={true}
+									muted={true}
+								/>
+								<CardContent>
+									<div className="text-xl font-bold mb-1">
+										{Title}
+									</div>
+									<p className="text-xs text-muted-foreground">
+										{Description}
+									</p>
+									<div className=""></div>
+								</CardContent>
+							</Card>
+						)
+				  )}
 		</div>
 	)
 }

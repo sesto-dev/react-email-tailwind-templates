@@ -197,6 +197,8 @@ export default function Page() {
 									: 'Input Prompt'}
 							</Label>
 							<Textarea
+								key="prompt"
+								autoFocus={true}
 								placeholder={
 									locale == 'fa'
 										? 'توصیف مورد نظر خود از تصویر خروجی را اینجا بنویسید. '
@@ -266,7 +268,7 @@ export default function Page() {
 						</div>
 					</TabsContent>
 					<TabsContent value="gallery" className="space-y-4 ">
-						<Gallery />
+						<Gallery comparison />
 					</TabsContent>
 				</Tabs>
 			</div>

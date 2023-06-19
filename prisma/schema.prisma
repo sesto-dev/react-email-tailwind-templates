@@ -27,22 +27,18 @@ model User {
   referralsProvided Payment[]       @relation("referralsProvided")
   referralsConsumed Payment[]       @relation("referralsConsumed")
   blogPosts         BlogPost[]
-  documentPages     DocumentPage[]
-  messages          Message[]
+  requests          Request[]
 }
 
-model Message {
+model Request {
   id String @id @default(cuid())
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  fromUser Boolean
-    createdAt DateTime @default(now())
-
-
-  content String
+  response String
 }
+
 
 model Payment {
   transactionId String @id
@@ -73,21 +69,6 @@ model BlogPost {
   updatedAt DateTime @updatedAt
 
   categories String[]
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-}
-
-model DocumentPage {
-  slug          String  @id
-  title         String
-  content       String? @db.Text
-  index         Int
-  category      String
-  categoryIndex Int
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
