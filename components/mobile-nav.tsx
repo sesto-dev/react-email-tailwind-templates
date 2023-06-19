@@ -1,8 +1,8 @@
 'use client'
 
-import * as React from 'react'
+import { useState, Fragment } from 'react'
 import Link, { LinkProps } from 'next/link'
-import { useRouter } from 'next/navigation'
+
 import { SidebarOpen } from 'lucide-react'
 
 import { docsConfig } from '@/config/docs'
@@ -11,9 +11,11 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { useRouter } from 'next/router'
 
 export function MobileNav() {
-	const [open, setOpen] = React.useState(false)
+	const { locale = 'fa' } = useRouter()
+	const [open, setOpen] = useState(false)
 
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
@@ -32,7 +34,7 @@ export function MobileNav() {
 					className="flex items-center"
 					onOpenChange={setOpen}
 				>
-					<span className="font-bold">{Config.name}</span>
+					<span className="font-bold">{Config.name[locale]}</span>
 				</MobileLink>
 				<ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
 					<div className="flex flex-col space-y-3">
@@ -58,7 +60,7 @@ export function MobileNav() {
 								<h4 className="font-medium">{item.title}</h4>
 								{item?.items?.length &&
 									item.items.map((item) => (
-										<React.Fragment key={item.href}>
+										<Fragment key={item.href}>
 											{!item.disabled &&
 												(item.href ? (
 													<MobileLink
@@ -70,7 +72,7 @@ export function MobileNav() {
 												) : (
 													item.title
 												))}
-										</React.Fragment>
+										</Fragment>
 									))}
 							</div>
 						))}
