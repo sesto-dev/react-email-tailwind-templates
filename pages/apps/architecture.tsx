@@ -9,6 +9,15 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { Label } from '@/components/ui/label'
@@ -23,6 +32,7 @@ import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
 import Gallery from '@/components/Gallery'
 import { getRandomIntInRange } from '@/lib/rng'
+import ArchitecturalData from '@/data/architecture'
 
 export default function Page() {
 	const TabItems = [
@@ -52,9 +62,10 @@ export default function Page() {
 
 	const [loading, setLoading] = useState(false)
 	const [prompt, setPrompt] = useState('')
+	const [model, setModel] = useState('')
 	const [selectedFile, setSelectedFile] = useState(null)
 	const [inputImage, setInputImage] = useState(null)
-	const [outputImage, setOutputImage] = useState(null)
+	const [outputImage, setOutputImage] = useState('')
 
 	const loadingRef = useRef(loading)
 
@@ -75,11 +86,28 @@ export default function Page() {
 
 	function CallRender() {
 		setLoading(!loadingRef.current)
+		let outputSource
+
+		switch (model) {
+			case 'one':
+				outputSource = ArchitecturalData[0]['output']
+				break
+
+			case 'two':
+				outputSource = ArchitecturalData[1]['output']
+				break
+
+			case 'three':
+				outputSource = ArchitecturalData[2]['output']
+				break
+
+			case 'four':
+				outputSource = ArchitecturalData[3]['output']
+				break
+		}
 
 		setTimeout(() => {
-			setOutputImage(
-				'https://static.dezeen.com/uploads/2022/11/ai-feature_dezeen_1704_hero-1704x959.jpg'
-			)
+			setOutputImage(outputSource)
 
 			setLoading(!loadingRef.current)
 		}, getRandomIntInRange(4000, 10000))
@@ -88,9 +116,10 @@ export default function Page() {
 	function OutputColumn() {
 		return (
 			<Card className="col-span-1 w-full ">
-				{outputImage ? (
+				{theme && outputImage ? (
 					<img
 						style={{
+							borderRadius: '0.5rem 0.5rem 0 0',
 							height: '20rem',
 							width: '100%',
 							objectFit: 'cover',
@@ -124,10 +153,12 @@ export default function Page() {
 
 				<CardFooter className="flex justify-between mt-10">
 					<div className="" />
-					<Button disabled size="sm">
-						<Download className="mr-2 h-4 w-4" />
-						{locale == 'fa' ? 'دانلود تصویر' : 'Download Image'}
-					</Button>
+					<a href={outputImage} download>
+						<Button disabled={outputImage == ''} size="sm">
+							<Download className="mr-2 h-4 w-4" />
+							{locale == 'fa' ? 'دانلود تصویر' : 'Download Image'}
+						</Button>
+					</a>
 				</CardFooter>
 			</Card>
 		)
@@ -136,9 +167,10 @@ export default function Page() {
 	function InputColumn() {
 		return (
 			<Card className="col-span-1 w-full ">
-				{inputImage ? (
+				{theme && inputImage ? (
 					<img
 						style={{
+							borderRadius: '0.5rem 0.5rem 0 0',
 							height: '20rem',
 							width: '100%',
 							objectFit: 'cover',
@@ -209,6 +241,55 @@ export default function Page() {
 								onChange={(e) => setPrompt(e.target.value)}
 							/>
 						</div>
+						<div className="grid w-full gap-1.5">
+							<Label htmlFor="model">
+								{locale == 'fa' ? 'مدل' : 'Model'}
+							</Label>
+							<Select
+								onValueChange={(v) => {
+									setModel(v)
+								}}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue
+										placeholder={
+											locale == 'fa'
+												? 'مدل مورد نظر را انتخاب کنید.'
+												: 'Select your model.'
+										}
+									/>
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup>
+										<SelectLabel>
+											{locale == 'fa'
+												? 'مدل ها'
+												: 'Models'}
+										</SelectLabel>
+										<SelectItem value="one">
+											{locale == 'fa'
+												? 'رندر بیرونی - نور صبحگاهی'
+												: 'Apple'}
+										</SelectItem>
+										<SelectItem value="two">
+											{locale == 'fa'
+												? 'رندر داخلی ویلا - اسکاندیناویایی'
+												: 'Banana'}
+										</SelectItem>
+										<SelectItem value="three">
+											{locale == 'fa'
+												? 'رندر داخلی کافه - اسکاندیناویایی'
+												: 'Banana'}
+										</SelectItem>
+										<SelectItem value="four">
+											{locale == 'fa'
+												? 'رندر داخلی مهد کودک - صندلی های رنگین'
+												: 'Banana'}
+										</SelectItem>
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						</div>
 					</div>
 				</CardContent>
 				<CardFooter className="flex justify-between">
@@ -216,7 +297,10 @@ export default function Page() {
 
 					<Button
 						disabled={
-							prompt == '' || selectedFile == null || loading
+							prompt == '' ||
+							model == '' ||
+							selectedFile == null ||
+							loading
 						}
 						onClick={CallRender}
 					>
@@ -257,7 +341,7 @@ export default function Page() {
 						))}
 					</TabsList>
 					<TabsContent value="app" className="space-y-4 ">
-						<div className="grid gap-4 grid-cols-2 ">
+						<div className="grid gap-4 grid-cols-1 md:grid-cols-2 ">
 							<InputColumn />
 							<OutputColumn />
 						</div>
