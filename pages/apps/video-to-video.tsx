@@ -1,4 +1,4 @@
-import { CircleSlashedIcon, Download, EyeIcon, TrashIcon } from 'lucide-react'
+import { CircleSlashIcon, Download, EyeIcon, TrashIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -201,7 +201,7 @@ export default function Page() {
 						</Button>
 					) : (
 						<Button disabled={true}>
-							<CircleSlashedIcon className="mr-2 h-4 w-4 animate-spin" />
+							<CircleSlashIcon className="mr-2 h-4 w-4 animate-spin" />
 						</Button>
 					)}
 				</CardFooter>

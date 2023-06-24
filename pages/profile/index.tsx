@@ -1,6 +1,7 @@
+'use client'
+
 import { Separator } from '@/components/ui/separator'
 import { SidebarNav } from '@/examples/forms/components/sidebar-nav'
-;('use client')
 
 import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -170,10 +171,7 @@ export function ProfileForm() {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Email</FormLabel>
-							<Select
-								onValueChange={field.onChange}
-								defaultValue={field.value}
-							>
+							<Select defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue placeholder="Select a verified email to display" />

@@ -82,6 +82,8 @@
 		"recharts": "^2.7.1",
 		"sharp": "^0.32.1",
 		"tailwind-merge": "^1.13.2",
+		"use-sound": "^4.0.1",
+		"wavesurfer.js": "^6.6.4",
 		"zod": "^3.21.4"
 	},
 	"devDependencies": {

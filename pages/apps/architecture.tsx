@@ -269,12 +269,12 @@ export default function Page() {
 										<SelectItem value="one">
 											{locale == 'fa'
 												? 'رندر بیرونی - نور صبحگاهی'
-												: 'Apple'}
+												: 'Exterior - Morning Light'}
 										</SelectItem>
 										<SelectItem value="two">
 											{locale == 'fa'
 												? 'رندر داخلی ویلا - اسکاندیناویایی'
-												: 'Banana'}
+												: 'Interior - Villa - Scandinavian'}
 										</SelectItem>
 										<SelectItem value="three">
 											{locale == 'fa'
