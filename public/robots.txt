@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://pardis.vercel.app
-
-# Sitemaps
-Sitemap: https://pardis.vercel.app/sitemap.xml

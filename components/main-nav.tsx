@@ -1,63 +1,69 @@
-'use client'
+"use client";
 
-import * as React from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
 
-import Config from '@/config'
-import { cn } from '@/lib/utils'
-import { useRouter } from 'next/router'
+import { cn } from "@/lib/utils";
 
-export function MainNav() {
-	const pathname = usePathname()
-	const { locale = 'fa' } = useRouter()
+export function MainNav({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLElement>) {
+  const pathname = usePathname();
+  const params = useParams();
 
-	const Links = [
-		{
-			path: '/apps',
-			english: 'Apps',
-			persian: 'اپلیکیشن ها',
-		},
-		{
-			path: '/gallery',
-			english: 'Gallery',
-			persian: 'گالری',
-		},
-		{
-			path: '/about',
-			english: 'About',
-			persian: 'درباره ما',
-		},
-		{
-			path: '/contact',
-			english: 'Contact',
-			persian: 'تماس',
-		},
-	]
+  const routes = [
+    {
+      href: `/${params.storeId}`,
+      label: "Overview",
+      active: pathname === `/${params.storeId}`,
+    },
+    {
+      href: `/${params.storeId}/billboards`,
+      label: "Billboards",
+      active: pathname === `/${params.storeId}/billboards`,
+    },
+    {
+      href: `/${params.storeId}/categories`,
+      label: "Categories",
+      active: pathname === `/${params.storeId}/categories`,
+    },
+    {
+      href: `/${params.storeId}/products`,
+      label: "Products",
+      active: pathname === `/${params.storeId}/products`,
+    },
+    {
+      href: `/${params.storeId}/orders`,
+      label: "Orders",
+      active: pathname === `/${params.storeId}/orders`,
+    },
+    {
+      href: `/${params.storeId}/settings`,
+      label: "Settings",
+      active: pathname === `/${params.storeId}/settings`,
+    },
+  ];
 
-	return (
-		<div className="hidden md:flex gap-6">
-			<Link href="/" className="flex items-center space-x-2">
-				<span className="hidden font-bold sm:inline-block">
-					{locale == 'fa' ? 'آندیا' : 'Andia'}
-				</span>
-			</Link>
-			<nav className="flex items-center gap-6 text-sm font-medium">
-				{Links.map(({ path, english, persian }) => (
-					<Link
-						key={english}
-						href={path}
-						className={cn(
-							'transition-colors hover:text-foreground/80',
-							pathname === path
-								? 'text-foreground'
-								: 'text-foreground/60'
-						)}
-					>
-						{locale == 'fa' ? persian : english}
-					</Link>
-				))}
-			</nav>
-		</div>
-	)
+  return (
+    <nav
+      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
+      {...props}
+    >
+      {routes.map((route) => (
+        <Link
+          key={route.href}
+          href={route.href}
+          className={cn(
+            "text-sm font-medium transition-colors hover:text-primary",
+            route.active
+              ? "text-black dark:text-white"
+              : "text-muted-foreground"
+          )}
+        >
+          {route.label}
+        </Link>
+      ))}
+    </nav>
+  );
 }

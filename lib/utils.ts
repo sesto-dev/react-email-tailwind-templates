@@ -1,27 +1,32 @@
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { type ClassValue, clsx } from "clsx";
+import { NextResponse } from "next/server";
+import { twMerge } from "tailwind-merge";
+import { ZodError } from "zod";
+import { NextRequest } from "next/server";
 
 export function cn(...inputs: ClassValue[]) {
-	return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-export function formatDate(input: string | number): string {
-	const date = new Date(input)
-	return date.toLocaleDateString('en-US', {
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric',
-	})
-}
+export const formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
 
-export function absoluteUrl(path: string) {
-	return `${process.env.NEXT_PUBLIC_APP_URL}${path}`
-}
-
-export function capitalizeFirstLetter(str) {
-	if (typeof str !== 'string' || str.length === 0) {
-		return str // Return the input as is if it's not a non-empty string
-	}
-
-	return str.charAt(0).toUpperCase() + str.slice(1)
+export function getErrorResponse(
+  status: number = 500,
+  message: string,
+  errors: ZodError | null = null
+) {
+  return new NextResponse(
+    JSON.stringify({
+      status: status < 500 ? "fail" : "error",
+      message,
+      errors: errors ? errors.flatten() : null,
+    }),
+    {
+      status,
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 }

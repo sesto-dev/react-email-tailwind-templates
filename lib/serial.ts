@@ -1,21 +1,42 @@
-export function createSerialNumber({ batch }) {
-	let voucher = ''
+export function generateSerial({
+    batchCount = 1,
+    batchSize = 5,
+    alphanumeric = false,
+}) {
+    function generateAlphanumerics() {
+        let generation = ''
 
-	voucher = voucher.concat(generate())
-	for (let i = 1; i < batch; i++) {
-		voucher = voucher.concat('-')
-		voucher = voucher.concat(generate())
-	}
+        while (generation.length != batchSize) {
+            generation = Math.random().toString(36).slice(8).toUpperCase()
+        }
 
-	return voucher
-}
+        return generation
+    }
 
-function generate() {
-	let generation = ''
+    function generateNumerics() {
+        let generation = ''
 
-	while (generation.length != 5) {
-		generation = Math.random().toString(36).slice(8).toUpperCase()
-	}
+        while (generation.length != batchSize) {
+            generation = Math.floor(Math.random() * Math.pow(10, batchSize))
+                .toString()
+                .padStart(batchSize, '0')
+        }
 
-	return generation
+        return generation
+    }
+
+    let voucher = ''
+
+    voucher = voucher.concat(
+        alphanumeric ? generateAlphanumerics() : generateNumerics()
+    )
+
+    for (let i = 1; i < batchCount; i++) {
+        voucher = voucher.concat('-')
+        voucher = voucher.concat(
+            alphanumeric ? generateAlphanumerics() : generateNumerics()
+        )
+    }
+
+    return voucher
 }

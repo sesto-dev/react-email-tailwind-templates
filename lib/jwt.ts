@@ -1,57 +1,33 @@
-import jwt from 'jsonwebtoken'
+import { SignJWT, jwtVerify } from "jose";
 
-import { handleError } from '@/lib/error'
-import { NextRequest, NextResponse } from 'next/server'
+export const signJWT = async (
+  payload: { sub: string },
+  options: { exp: string }
+) => {
+  try {
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
+    const alg = "HS256";
+    return new SignJWT(payload)
+      .setProtectedHeader({ alg })
+      .setExpirationTime(options.exp)
+      .setIssuedAt()
+      .setSubject(payload.sub)
+      .sign(secret);
+  } catch (error) {
+    throw error;
+  }
+};
 
-export async function signJWT({
-	id,
-	secret,
-	expiresIn,
-}: {
-	id: string
-	secret: string
-	expiresIn: string
-}) {
-	return jwt.sign(
-		{
-			id,
-		},
-		secret,
-		{ expiresIn }
-	)
-}
-
-export async function verifyAndGetJWTPayload({
-	token,
-	secret,
-}: {
-	token: string
-	secret: string
-}) {
-	try {
-		return jwt.verify(token, secret)
-	} catch (error) {
-		await handleError({ error, comment: "Can't verify..." })
-		return { id: null }
-	}
-}
-
-export async function protectRoute({ req, res }) {
-	try {
-		const authHeader = req.headers.get('authorization')
-		const token =
-			authHeader && authHeader.startsWith('Bearer ')
-				? authHeader.split(' ')[1]
-				: null
-
-		if (token == null) return res.status(401)
-
-		return await verifyAndGetJWTPayload({
-			token,
-			secret: process.env.ACCESS_TOKEN_SECRET,
-		})
-	} catch (error) {
-		await handleError({ error, comment: 'Forbidden' })
-		return null
-	}
-}
+export const verifyJWT = async <T>(token: string): Promise<T> => {
+  try {
+    return (
+      await jwtVerify(
+        token,
+        new TextEncoder().encode(process.env.JWT_SECRET_KEY)
+      )
+    ).payload as T;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Your token has expired.");
+  }
+};

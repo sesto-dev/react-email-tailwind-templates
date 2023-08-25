@@ -1,10 +1,8 @@
 {
-	"search.exclude": {
-		"**/package-lock.json": true,
-		"**/node_modules": true,
-		"**/.next": true,
-		"**/yarn.lock": true
-	},
-	"typescript.tsdk": "node_modules\\typescript\\lib",
-	"typescript.enablePromptUseWorkspaceTsdk": true
+    "search.exclude": {
+        "**/package-lock.json": true,
+        "**/node_modules": true,
+        "**/.next": true,
+        "**/yarn.lock": true
+    }
 }

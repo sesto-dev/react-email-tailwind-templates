@@ -1,15 +1,15 @@
-import sendMail from '@/lib/mail/helpers/sendMail'
+import sendMail from "@/lib/mail/helpers/sendMail";
 
-export default async function ({ to, unsubscribe_url }) {
-	const subject = 'Successfully subscribed.'
+export default async function sendSubscribe({ to, unsubscribe_url }) {
+  const subject = "Successfully subscribed.";
 
-	await sendMail({ to, subject, body: getBody(), unsubscribe_url })
+  await sendMail({ to, subject, body: getBody(), unsubscribe_url });
 }
 
 function getBody() {
-	return `
+  return `
 		<p>
 			You successfully subscribed to our emaill list.
 		</p>
-	`
+	`;
 }

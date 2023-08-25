@@ -1,5 +1,7 @@
-export default function ({ unsubscribe_url }) {
-  return `<p>Regards, Oneli.</p>
+import Config from "@/config/site";
+
+export default function getEpilogue({ unsubscribe_url }) {
+  return `<p>Regards, ${Config.name}.</p>
 											</td>
 										</tr>
 									</table>
@@ -53,5 +55,5 @@ export default function ({ unsubscribe_url }) {
 		</table>
 	</body>
 </html>
-`
+`;
 }
