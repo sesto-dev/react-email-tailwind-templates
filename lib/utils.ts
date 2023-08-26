@@ -2,7 +2,6 @@ import { type ClassValue, clsx } from "clsx";
 import { NextResponse } from "next/server";
 import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
-import { NextRequest } from "next/server";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,6 +17,8 @@ export function getErrorResponse(
   message: string,
   errors: ZodError | null = null
 ) {
+  console.error({ errors, status, message });
+
   return new NextResponse(
     JSON.stringify({
       status: status < 500 ? "fail" : "error",

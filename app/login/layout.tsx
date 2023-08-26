@@ -3,7 +3,7 @@ export default async function DashboardLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { storeId: string };
+  params: { vendorId: string };
 }) {
   return <>{children}</>;
 }

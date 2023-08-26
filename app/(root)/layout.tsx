@@ -1,13 +1,13 @@
 import { redirect } from "next/navigation";
 
-import prismadb from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export default async function SetupLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const store = await prismadb.vendor.findFirst({});
+  const store = await prisma.vendor.findFirst({});
 
   if (store) {
     redirect(`/${store.id}`);

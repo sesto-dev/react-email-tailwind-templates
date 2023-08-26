@@ -1,10 +1,10 @@
 import StoreSwitcher from "@/components/store-switcher";
 import { MainNav } from "@/components/main-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
-import prismadb from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 const Navbar = async () => {
-  const stores = await prismadb.vendor.findMany();
+  const stores = await prisma.vendor.findMany();
 
   return (
     <div className="border-b">

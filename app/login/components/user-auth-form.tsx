@@ -51,8 +51,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     });
 
     if (response.ok) {
-      setIsLoading(false);
-      window.location.href = "/";
+      window.location.assign(`/`);
     }
   }
 

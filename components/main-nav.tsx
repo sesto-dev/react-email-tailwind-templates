@@ -14,34 +14,34 @@ export function MainNav({
 
   const routes = [
     {
-      href: `/${params.storeId}`,
+      href: `/${params.vendorId}`,
       label: "Overview",
-      active: pathname === `/${params.storeId}`,
+      active: pathname === `/${params.vendorId}`,
     },
     {
-      href: `/${params.storeId}/billboards`,
+      href: `/${params.vendorId}/billboards`,
       label: "Billboards",
-      active: pathname === `/${params.storeId}/billboards`,
+      active: pathname === `/${params.vendorId}/billboards`,
     },
     {
-      href: `/${params.storeId}/categories`,
+      href: `/${params.vendorId}/categories`,
       label: "Categories",
-      active: pathname === `/${params.storeId}/categories`,
+      active: pathname === `/${params.vendorId}/categories`,
     },
     {
-      href: `/${params.storeId}/products`,
+      href: `/${params.vendorId}/products`,
       label: "Products",
-      active: pathname === `/${params.storeId}/products`,
+      active: pathname === `/${params.vendorId}/products`,
     },
     {
-      href: `/${params.storeId}/orders`,
+      href: `/${params.vendorId}/orders`,
       label: "Orders",
-      active: pathname === `/${params.storeId}/orders`,
+      active: pathname === `/${params.vendorId}/orders`,
     },
     {
-      href: `/${params.storeId}/settings`,
+      href: `/${params.vendorId}/settings`,
       label: "Settings",
-      active: pathname === `/${params.storeId}/settings`,
+      active: pathname === `/${params.vendorId}/settings`,
     },
   ];
 

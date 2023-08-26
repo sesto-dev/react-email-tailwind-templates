@@ -6,56 +6,49 @@ import { ZodError } from "zod";
 
 export async function POST(req: NextRequest) {
   try {
-    const JWT_EXPIRES_IN = 60;
+    const expiryMinutes = 30 * 24 * 60;
 
     let { email, OTP } = await req.json();
 
     email = email.toString().toLowerCase();
 
-    const user = await prisma.user.findUniqueOrThrow({
-      where: { email },
+    const user = await prisma.user.findFirstOrThrow({
+      where: { email, OTP },
     });
 
-    if (user.OTP === OTP) {
-      const token = await signJWT(
-        { sub: user.id },
-        { exp: `${JWT_EXPIRES_IN}m` }
-      );
+    const token = await signJWT({ sub: user.id }, { exp: `${expiryMinutes}m` });
 
-      const tokenMaxAge = JWT_EXPIRES_IN * 60;
-      const cookieOptions = {
-        name: "token",
-        value: token,
-        httpOnly: true,
-        path: "/",
-        secure: process.env.NODE_ENV !== "development",
+    const tokenMaxAge = expiryMinutes * 60;
+    const cookieOptions = {
+      name: "token",
+      value: token,
+      httpOnly: true,
+      path: "/",
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: tokenMaxAge,
+    };
+
+    const response = new NextResponse(
+      JSON.stringify({
+        status: "success",
+        token,
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    await Promise.all([
+      response.cookies.set(cookieOptions),
+      response.cookies.set({
+        name: "logged-in",
+        value: "true",
         maxAge: tokenMaxAge,
-      };
+      }),
+    ]);
 
-      const response = new NextResponse(
-        JSON.stringify({
-          status: "success",
-          token,
-        }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      await Promise.all([
-        response.cookies.set(cookieOptions),
-        response.cookies.set({
-          name: "logged-in",
-          value: "true",
-          maxAge: tokenMaxAge,
-        }),
-      ]);
-
-      return response;
-    } else {
-      return getErrorResponse(400, "Invalid OTP");
-    }
+    return response;
   } catch (error: any) {
     if (error instanceof ZodError) {
       return getErrorResponse(400, "failed validations", error);
