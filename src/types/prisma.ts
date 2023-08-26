@@ -1,9 +1,13 @@
 import { Prisma } from "@prisma/client";
 
-export type CartItemWithVendorVariant = Prisma.CartItemGetPayload<{
+export type CartItemWithListings = Prisma.CartItemGetPayload<{
   include: {
     listing: {
-      include: { subproduct: { include: { product: true } } };
+      include: {
+        subproduct: {
+          include: { product: { include: { brand: true; categories: true } } };
+        };
+      };
     };
   };
 }>;

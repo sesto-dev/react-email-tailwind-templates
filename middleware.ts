@@ -9,7 +9,7 @@ interface AuthenticatedRequest extends NextRequest {
 }
 
 export async function middleware(req: NextRequest) {
-  if (!req.nextUrl.pathname.startsWith("/login")) {
+  if (!req.nextUrl.pathname.match("/login")) {
     let token: string | undefined;
 
     if (req.cookies.has("token")) {

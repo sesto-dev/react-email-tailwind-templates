@@ -21,7 +21,7 @@ const ListingsPage = async ({ params }: { params: { vendorId: string } }) => {
     },
   });
 
-  const formattedVendorVariants: ListingColumn[] = listings.map((item) => ({
+  const formattedListings: ListingColumn[] = listings.map((item) => ({
     id: item.id,
     title: item.subproduct.title,
     price: formatter.format(item.price),
@@ -32,7 +32,7 @@ const ListingsPage = async ({ params }: { params: { vendorId: string } }) => {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <ListingsClient data={formattedVendorVariants} />
+        <ListingsClient data={formattedListings} />
       </div>
     </div>
   );
