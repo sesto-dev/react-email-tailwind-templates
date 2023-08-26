@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Trash } from "lucide-react";
-import { Category, Product } from "@prisma/client";
+import { Category } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/select";
 import ImageUpload from "@/components/ui/image-upload";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { VendorProductWithAllSupersets } from "@/types/prisma";
+import type { ListingWithAllSupersets } from "@/types/prisma";
 
 const formSchema = z.object({
   title: z.string().min(1),
@@ -44,14 +44,14 @@ const formSchema = z.object({
   isArchived: z.boolean().default(false).optional(),
 });
 
-type ProductFormValues = z.infer<typeof formSchema>;
+type ListingFormValues = z.infer<typeof formSchema>;
 
-interface ProductFormProps {
-  initialData: VendorProductWithAllSupersets | null;
+interface ListingFormProps {
+  initialData: ListingWithAllSupersets | null;
   categories: Category[];
 }
 
-export const ProductForm: React.FC<ProductFormProps> = ({
+export const ListingForm: React.FC<ListingFormProps> = ({
   initialData,
   categories,
 }) => {
@@ -61,9 +61,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Edit product" : "Create product";
-  const description = initialData ? "Edit a product." : "Add a new product";
-  const toastMessage = initialData ? "Product updated." : "Product created.";
+  const title = initialData ? "Edit listing" : "Create listing";
+  const description = initialData ? "Edit a listing." : "Add a new listing";
+  const toastMessage = initialData ? "Listing updated." : "Listing created.";
   const action = initialData ? "Save changes" : "Create";
 
   const defaultValues = initialData
@@ -80,24 +80,24 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         isFeatured: false,
       };
 
-  const form = useForm<ProductFormValues>({
+  const form = useForm<ListingFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
 
-  const onSubmit = async (data: ProductFormValues) => {
+  const onSubmit = async (data: ListingFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
         await axios.patch(
-          `/api/${params.vendorId}/products/${params.productId}`,
+          `/api/${params.vendorId}/listings/${params.listingId}`,
           data
         );
       } else {
-        await axios.post(`/api/${params.vendorId}/products`, data);
+        await axios.post(`/api/${params.vendorId}/listings`, data);
       }
       router.refresh();
-      router.push(`/${params.vendorId}/products`);
+      router.push(`/${params.vendorId}/listings`);
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error("Something went wrong.");
@@ -110,11 +110,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     try {
       setLoading(true);
       await axios.delete(
-        `/api/${params.vendorId}/products/${params.productId}`
+        `/api/${params.vendorId}/listings/${params.listingId}`
       );
       router.refresh();
-      router.push(`/${params.vendorId}/products`);
-      toast.success("Product deleted.");
+      router.push(`/${params.vendorId}/listings`);
+      toast.success("Listing deleted.");
     } catch (error: any) {
       toast.error("Something went wrong.");
     } finally {
@@ -184,7 +184,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Product name"
+                      placeholder="Listing name"
                       {...field}
                     />
                   </FormControl>
@@ -258,7 +258,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <div className="space-y-1 leading-none">
                     <FormLabel>Featured</FormLabel>
                     <FormDescription>
-                      This product will appear on the home page
+                      This listing will appear on the home page
                     </FormDescription>
                   </div>
                 </FormItem>
@@ -279,7 +279,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <div className="space-y-1 leading-none">
                     <FormLabel>Archived</FormLabel>
                     <FormDescription>
-                      This product will not appear anywhere in the store.
+                      This listing will not appear anywhere in the store.
                     </FormDescription>
                   </div>
                 </FormItem>

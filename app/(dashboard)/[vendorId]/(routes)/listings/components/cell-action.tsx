@@ -16,10 +16,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { ProductColumn } from "./columns";
+import { ListingColumn } from "./columns";
 
 interface CellActionProps {
-  data: ProductColumn;
+  data: ListingColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -31,8 +31,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.vendorId}/products/${data.id}`);
-      toast.success("Product deleted.");
+      await axios.delete(`/api/${params.vendorId}/listings/${data.id}`);
+      toast.success("Listing deleted.");
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
@@ -44,7 +44,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Product ID copied to clipboard.");
+    toast.success("Listing ID copied to clipboard.");
   };
 
   return (
@@ -69,7 +69,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
-              router.push(`/${params.vendorId}/products/${data.id}`)
+              router.push(`/${params.vendorId}/listings/${data.id}`)
             }
           >
             <Edit className="mr-2 h-4 w-4" /> Update

@@ -10,22 +10,26 @@ export async function POST(req: Request) {
 
     const { title } = await req.json();
 
-    const storeByUserId = await prisma.vendor.findUnique({
+    const vendor = await prisma.vendor.findUnique({
       where: {
         userId,
         title,
       },
     });
 
-    if (!storeByUserId) {
+    if (!vendor) {
       return new NextResponse("Unauthorized", { status: 405 });
     }
 
-    const product = await prisma.product.findFirst({});
+    const listings = await prisma.listing.findMany({
+      where: {
+        vendorId: vendor.id,
+      },
+    });
 
-    return NextResponse.json(product);
+    return NextResponse.json(listings);
   } catch (error) {
-    console.error("[PRODUCTS_POST]", error);
+    console.error("[LISTINGS_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
@@ -43,11 +47,15 @@ export async function GET(
       return new NextResponse("Store id is required", { status: 400 });
     }
 
-    const products = await prisma.product.findMany({});
+    const listings = await prisma.listing.findMany({
+      where: {
+        vendorId: params.vendorId,
+      },
+    });
 
-    return NextResponse.json(products);
+    return NextResponse.json(listings);
   } catch (error) {
-    console.error("[PRODUCTS_GET]", error);
+    console.error("[LISTINGS_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

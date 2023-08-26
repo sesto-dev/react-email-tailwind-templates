@@ -29,9 +29,9 @@ export function MainNav({
       active: pathname === `/${params.vendorId}/categories`,
     },
     {
-      href: `/${params.vendorId}/products`,
-      label: "Products",
-      active: pathname === `/${params.vendorId}/products`,
+      href: `/${params.vendorId}/listings`,
+      label: "Listings",
+      active: pathname === `/${params.vendorId}/listings`,
     },
     {
       href: `/${params.vendorId}/orders`,

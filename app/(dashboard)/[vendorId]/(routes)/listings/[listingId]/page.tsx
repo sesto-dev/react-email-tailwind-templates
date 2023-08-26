@@ -1,15 +1,15 @@
 import prisma from "@/lib/prisma";
 
-import { ProductForm } from "./components/product-form";
+import { ListingForm } from "./components/listing-form";
 
-const ProductPage = async ({
+const ListingPage = async ({
   params,
 }: {
-  params: { productId: string; vendorId: string };
+  params: { listingId: string; vendorId: string };
 }) => {
-  const product = await prisma.vendorProduct.findUnique({
+  const listing = await prisma.listing.findUnique({
     where: {
-      id: params.productId,
+      id: params.listingId,
     },
     include: {
       subproduct: {
@@ -29,10 +29,10 @@ const ProductPage = async ({
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <ProductForm categories={categories} initialData={product} />
+        <ListingForm categories={categories} initialData={listing} />
       </div>
     </div>
   );
 };
 
-export default ProductPage;
+export default ListingPage;

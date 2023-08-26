@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 
 export type CartItemWithVendorVariant = Prisma.CartItemGetPayload<{
   include: {
-    vendorProduct: {
+    listing: {
       include: { subproduct: { include: { product: true } } };
     };
   };
@@ -13,12 +13,12 @@ export type ProductWithAllVariants = Prisma.ProductGetPayload<{
     categories: true;
     brand: true;
     subproducts: {
-      include: { vendorProducts: true };
+      include: { listings: true };
     };
   };
 }>;
 
-export type VendorProductWithAllSupersets = Prisma.VendorProductGetPayload<{
+export type ListingWithAllSupersets = Prisma.ListingGetPayload<{
   include: {
     subproduct: {
       include: {
