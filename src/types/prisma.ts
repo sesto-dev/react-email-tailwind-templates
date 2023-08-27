@@ -1,38 +1,19 @@
 import { Prisma } from "@prisma/client";
 
-export type CartItemWithListings = Prisma.CartItemGetPayload<{
+export type CartItemWithProduct = Prisma.CartItemGetPayload<{
   include: {
-    listing: {
+    product: {
       include: {
-        subproduct: {
-          include: { product: { include: { brand: true; categories: true } } };
-        };
+        brand: true;
+        categories: true;
       };
     };
   };
 }>;
 
-export type ProductWithAllVariants = Prisma.ProductGetPayload<{
+export type ProductWithIncludes = Prisma.ProductGetPayload<{
   include: {
-    categories: true;
     brand: true;
-    subproducts: {
-      include: { listings: true };
-    };
-  };
-}>;
-
-export type ListingWithAllSupersets = Prisma.ListingGetPayload<{
-  include: {
-    subproduct: {
-      include: {
-        product: {
-          include: {
-            brand: true;
-            categories: true;
-          };
-        };
-      };
-    };
+    categories: true;
   };
 }>;

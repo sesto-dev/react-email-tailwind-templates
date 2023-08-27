@@ -13,8 +13,6 @@ import { useRouter } from "next/navigation";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const router = useRouter();
-
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [email, setEmail] = React.useState<string>("");
   const [OTP, setOTP] = React.useState("");
@@ -99,7 +97,10 @@ function TryComponents({ handleEmailChange, isLoading, onSubmit, email }) {
   return (
     <>
       <div className="grid gap-1">
-        <Label className="sr-only" htmlFor="email">
+        <Label
+          className="text-sm text-foreground/60 font-light"
+          htmlFor="email"
+        >
           Email
         </Label>
         <Input
@@ -126,7 +127,10 @@ function VerifyComponents({ isLoading, onVerifyOTP, handleOTPChange }) {
   return (
     <>
       <div className="grid gap-1">
-        <Label className="sr-only" htmlFor="email">
+        <Label
+          className="text-sm text-foreground/60 font-light"
+          htmlFor="email"
+        >
           One-Time Password
         </Label>
         <Input

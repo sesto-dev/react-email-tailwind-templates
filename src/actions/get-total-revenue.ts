@@ -1,22 +1,21 @@
 import prisma from "@/lib/prisma";
 
-export const getTotalRevenue = async (vendorId: string) => {
+export const getTotalRevenue = async () => {
   const paidOrders = await prisma.order.findMany({
     where: {
-      vendors: { some: { id: vendorId } },
       isPaid: true,
     },
     include: {
-      items: {
+      orderItems: {
         include: {
-          subproduct: { include: { product: true } },
+          product: { include: { categories: true } },
         },
       },
     },
   });
 
   const totalRevenue = paidOrders.reduce((total, order) => {
-    const orderTotal = order.items.reduce((orderSum, item) => {
+    const orderTotal = order.orderItems.reduce((orderSum, item) => {
       return orderSum + item.price;
     }, 0);
     return total + orderTotal;
