@@ -24,18 +24,19 @@ const OrdersPage = async () => {
   const formattedOrders: OrderColumn[] = orders.map((order) => ({
     id: order.id,
     number: `Order #${order.number}`,
+    date: order.createdAt.toUTCString(),
     totalPrice: formatter.format(
       order.orderItems.reduce((total, item) => {
         return total + Number(item.price);
       }, 0)
     ),
-    isPaid: order.isPaid,
+    isPaid: order.isPaid ? "Yes." : "No.",
     createdAt: format(order.createdAt, "MMMM do, yyyy"),
   }));
 
   return (
     <div className="flex-col">
-      <div className="flex-1 space-y-4 p-8 pt-6">
+      <div className="flex-1 space-y-4 px-[1.4rem] md:px-[4rem] lg:px-[6rem] xl:px-[8rem] 2xl:px-[12rem] pt-6">
         <OrderClient data={formattedOrders} />
       </div>
     </div>

@@ -13,11 +13,6 @@ export function MainNav({
 
   const routes = [
     {
-      href: `/`,
-      label: "Admin Panel",
-      active: pathname === `/`,
-    },
-    {
       href: `/billboards`,
       label: "Billboards",
       active: pathname === `/billboards`,

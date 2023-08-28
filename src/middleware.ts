@@ -77,10 +77,13 @@ export const config = {
   matcher: [
     "/",
     "/login",
-    "/products",
     "/products/:path*",
-    "/orders",
+    "/billboards/:path*",
     "/orders/:path*",
+    "/categories/:path*",
     "/api/products/:path*",
+    "/api/categories/:path*",
+    "/api/billboards/:path*",
+    "/api/orders/:path*",
   ],
 };
