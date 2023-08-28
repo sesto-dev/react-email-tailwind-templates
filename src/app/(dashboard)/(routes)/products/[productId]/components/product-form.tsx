@@ -39,6 +39,8 @@ const formSchema = z.object({
   title: z.string().min(1),
   images: z.string().array(),
   price: z.coerce.number().min(1),
+  discount: z.coerce.number().min(0),
+  stock: z.coerce.number().min(0),
   categoryId: z.string().min(1),
   isFeatured: z.boolean().default(false).optional(),
   isAvailable: z.boolean().default(false).optional(),
@@ -76,6 +78,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         description: "",
         images: [],
         price: 0,
+        discount: 0,
+        stock: 0,
         categoryId: "",
         isFeatured: false,
         isAvailable: false,
@@ -89,11 +93,21 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const onSubmit = async (data: ProductFormValues) => {
     try {
       setLoading(true);
+
       if (initialData) {
-        await axios.patch(`/api/products/${params.productId}`, data);
+        await fetch(`/api/products/${params.productId}`, {
+          method: "PATCH",
+          body: JSON.stringify({ data }),
+          cache: "no-store",
+        });
       } else {
-        await axios.post(`/api/products`, data);
+        await fetch(`/api/products`, {
+          method: "POST",
+          body: JSON.stringify({ data }),
+          cache: "no-store",
+        });
       }
+
       router.refresh();
       router.push(`/products`);
       toast.success(toastMessage);
@@ -153,18 +167,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               <FormItem>
                 <FormLabel>Images</FormLabel>
                 <FormControl>
-                  {/* <ImageUpload
-                    value={field.value.map((image) => image.url)}
+                  <ImageUpload
+                    value={field.value.map((image) => image)}
                     disabled={loading}
                     onChange={(url) =>
                       field.onChange([...field.value, { url }])
                     }
                     onRemove={(url) =>
                       field.onChange([
-                        ...field.value.filter((current) => current.url !== url),
+                        ...field.value.filter((current) => current !== url),
                       ])
                     }
-                  /> */}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -208,6 +222,42 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
             <FormField
               control={form.control}
+              name="discount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discount</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="9.99"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="stock"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Stock</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="10"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
@@ -238,7 +288,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="isFeatured"
@@ -247,7 +296,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormControl>
                     <Checkbox
                       checked={field.value}
-                      // @ts-ignore
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
@@ -268,14 +316,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormControl>
                     <Checkbox
                       checked={field.value}
-                      // @ts-ignore
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel>Archived</FormLabel>
+                    <FormLabel>Available</FormLabel>
                     <FormDescription>
-                      This product will not appear anywhere in the store.
+                      This product will appear in the store.
                     </FormDescription>
                   </div>
                 </FormItem>

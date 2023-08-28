@@ -10,6 +10,10 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const { data } = await req.json();
+
+    console.log({ data });
+
     const products = await prisma.product.findMany();
 
     return NextResponse.json(products);

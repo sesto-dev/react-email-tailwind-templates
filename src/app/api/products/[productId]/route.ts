@@ -54,21 +54,38 @@ export async function DELETE(
   }
 }
 
-export async function PATCH(req: Request) {
+export async function PATCH(
+  req: Request,
+  { params }: { params: { productId: string } }
+) {
   try {
+    if (!params.productId) {
+      return new NextResponse("Product Id is required", { status: 400 });
+    }
+
     const userId = req.headers.get("X-USER-ID");
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const body = await req.json();
+    const {
+      data: { title, price, discount, stock, isFeatured, isAvailable },
+    } = await req.json();
 
-    const { title } = body;
-
-    await prisma.product.findFirst({});
-
-    const product = await prisma.product.findFirst({});
+    const product = await prisma.product.update({
+      where: {
+        id: params.productId,
+      },
+      data: {
+        title,
+        price,
+        discount,
+        stock,
+        isFeatured,
+        isAvailable,
+      },
+    });
 
     return NextResponse.json(product);
   } catch (error) {
