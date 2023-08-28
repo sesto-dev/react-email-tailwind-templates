@@ -7,7 +7,7 @@ export async function POST(req: Request) {
     const userId = req.headers.get("X-USER-ID");
 
     if (!userId) {
-      return new NextResponse("Unauthorized", { status: 405 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const products = await prisma.product.findMany();
@@ -21,6 +21,12 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
+    const userId = req.headers.get("X-USER-ID");
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     const { searchParams } = new URL(req.url);
     const categoryId = searchParams.get("categoryId") || undefined;
     const isFeatured = searchParams.get("isFeatured");

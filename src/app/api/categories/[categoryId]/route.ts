@@ -7,6 +7,12 @@ export async function GET(
   { params }: { params: { categoryId: string } }
 ) {
   try {
+    const userId = req.headers.get("X-USER-ID");
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     if (!params.categoryId) {
       return new NextResponse("Category id is required", { status: 400 });
     }
@@ -29,6 +35,12 @@ export async function DELETE(
   { params }: { params: { categoryId: string } }
 ) {
   try {
+    const userId = req.headers.get("X-USER-ID");
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     if (!params.categoryId) {
       return new NextResponse("Category id is required", { status: 400 });
     }
@@ -51,6 +63,12 @@ export async function PATCH(
   { params }: { params: { categoryId: string } }
 ) {
   try {
+    const userId = req.headers.get("X-USER-ID");
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     const body = await req.json();
 
     const { name, billboardId } = body;

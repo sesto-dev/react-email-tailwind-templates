@@ -32,12 +32,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const response = await fetch("/api/auth/otp/try", {
       method: "POST",
       body: JSON.stringify({ email }),
+      cache: "no-store",
     });
 
     if (response.ok) {
       setUsingOTP(true);
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   }
 
   async function onVerifyOTP() {
@@ -46,6 +48,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const response = await fetch("/api/auth/otp/verify", {
       method: "POST",
       body: JSON.stringify({ email, OTP }),
+      cache: "no-store",
     });
 
     if (response.ok) {

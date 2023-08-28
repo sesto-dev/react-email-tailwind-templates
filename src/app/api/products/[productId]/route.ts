@@ -7,6 +7,12 @@ export async function GET(
   { params }: { params: { productId: string } }
 ) {
   try {
+    const userId = req.headers.get("X-USER-ID");
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     if (!params.productId) {
       return new NextResponse("Product id is required", { status: 400 });
     }
@@ -29,6 +35,12 @@ export async function DELETE(
   { params }: { params: { productId: string } }
 ) {
   try {
+    const userId = req.headers.get("X-USER-ID");
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     const product = await prisma.product.delete({
       where: {
         id: params.productId,
@@ -44,6 +56,12 @@ export async function DELETE(
 
 export async function PATCH(req: Request) {
   try {
+    const userId = req.headers.get("X-USER-ID");
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     const body = await req.json();
 
     const { title } = body;

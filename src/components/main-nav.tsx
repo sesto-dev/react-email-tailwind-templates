@@ -14,7 +14,7 @@ export function MainNav({
   const routes = [
     {
       href: `/`,
-      label: "Overview",
+      label: "Admin Panel",
       active: pathname === `/`,
     },
     {

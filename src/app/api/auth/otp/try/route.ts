@@ -13,13 +13,9 @@ export async function POST(req: NextRequest) {
     const { email } = await req.json();
 
     if (isEmailValid(email)) {
-      await prisma.user.upsert({
+      await prisma.owner.update({
         where: { email },
-        update: {
-          OTP,
-        },
-        create: {
-          email,
+        data: {
           OTP,
         },
       });

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 
     email = email.toString().toLowerCase();
 
-    const user = await prisma.user.findFirstOrThrow({
+    const user = await prisma.owner.findFirstOrThrow({
       where: { email, OTP },
     });
 
