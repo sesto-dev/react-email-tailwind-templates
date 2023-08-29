@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -64,9 +63,17 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/billboards/${params.billboardId}`, data);
+        await fetch(`/api/billboards/${params.billboardId}`, {
+          method: "PATCH",
+          body: JSON.stringify({ data }),
+          cache: "no-store",
+        });
       } else {
-        await axios.post(`//billboards`, data);
+        await fetch(`/billboards`, {
+          method: "POST",
+          body: JSON.stringify({ data }),
+          cache: "no-store",
+        });
       }
       router.refresh();
       router.push(`/billboards`);
@@ -81,7 +88,12 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/billboards/${params.billboardId}`);
+
+      await fetch(`/api/billboards/${params.billboardId}`, {
+        method: "DELETE",
+        cache: "no-store",
+      });
+
       router.refresh();
       router.push(`/billboards`);
       toast.success("Billboard deleted.");

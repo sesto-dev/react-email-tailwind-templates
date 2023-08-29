@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -31,7 +30,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/products/${data.id}`);
+
+      await fetch(`/api/products/${data.id}`, {
+        method: "DELETE",
+        cache: "no-store",
+      });
+
       toast.success("Product deleted.");
       router.refresh();
     } catch (error) {

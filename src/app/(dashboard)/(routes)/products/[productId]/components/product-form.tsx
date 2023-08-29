@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -121,7 +120,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/products/${params.productId}`);
+
+      await fetch(`/api/products/${params.productId}`, {
+        method: "DELETE",
+        cache: "no-store",
+      });
+
       router.refresh();
       router.push(`/products`);
       toast.success("Product deleted.");

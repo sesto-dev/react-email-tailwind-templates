@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "react-hot-toast";
@@ -31,7 +30,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/billboards/${data.id}`);
+
+      await fetch(`/api/billboards/${data.id}`, {
+        method: "DELETE",
+        cache: "no-store",
+      });
+
       toast.success("Billboard deleted.");
       router.refresh();
     } catch (error) {

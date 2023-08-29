@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -70,9 +69,17 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/categories/${params.categoryId}`, data);
+        await fetch(`/api/categories/${params.categoryId}`, {
+          method: "PATCH",
+          body: JSON.stringify({ data }),
+          cache: "no-store",
+        });
       } else {
-        await axios.post(`/api/categories`, data);
+        await fetch(`/api/categories`, {
+          method: "POST",
+          body: JSON.stringify({ data }),
+          cache: "no-store",
+        });
       }
       router.refresh();
       router.push(`/categories`);
@@ -87,7 +94,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/categories/${params.categoryId}`);
+
+      await fetch(`/api/categories/${params.categoryId}`, {
+        method: "DELETE",
+        cache: "no-store",
+      });
+
       router.refresh();
       router.push(`/categories`);
       toast.success("Category deleted.");

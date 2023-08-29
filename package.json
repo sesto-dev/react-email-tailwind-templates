@@ -1,5 +1,5 @@
 {
-  "name": "next13-ecommerce-admin",
+  "name": "next-prisma-tailwind-ecommerce-cms",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -30,7 +30,6 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.4",
     "@tanstack/react-table": "^8.9.3",
-    "axios": "^1.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
