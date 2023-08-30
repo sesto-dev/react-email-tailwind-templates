@@ -2,17 +2,17 @@
 
 import { Button } from '@/components/ui/button'
 
-import { ProductColumn } from './columns'
+import { OrderColumn } from './columns'
 import Link from 'next/link'
 import { EyeIcon } from 'lucide-react'
 
 interface CellActionProps {
-   data: ProductColumn
+   data: OrderColumn
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
    return (
-      <Link href={`/products/${data.id}`}>
+      <Link href={`/orders/${data.id}`}>
          <Button size="icon" variant="outline">
             <EyeIcon className="h-4" />
          </Button>
