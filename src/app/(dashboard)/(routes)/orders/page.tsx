@@ -26,7 +26,7 @@ const OrdersPage = async () => {
       id: order.id,
       number: `Order #${order.number}`,
       date: order.createdAt.toUTCString(),
-      totalPrice: order.payable.toString(),
+      payable: '$' + order.payable.toString(),
       isPaid: order.isPaid ? 'Yes.' : 'No.',
       createdAt: format(order.createdAt, 'MMMM do, yyyy'),
    }))

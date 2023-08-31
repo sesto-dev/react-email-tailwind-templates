@@ -6,7 +6,7 @@ import { formatter } from '@/lib/utils'
 import { UsersClient } from './components/client'
 import { UserColumn } from './components/columns'
 
-const ProductsPage = async () => {
+const UsersPage = async () => {
    const users = await prisma.user.findMany({
       orderBy: {
          updatedAt: 'desc',
@@ -29,4 +29,4 @@ const ProductsPage = async () => {
    )
 }
 
-export default ProductsPage
+export default UsersPage

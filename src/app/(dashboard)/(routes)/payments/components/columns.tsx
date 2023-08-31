@@ -3,18 +3,19 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { CellAction } from './cell-action'
 
-export type OrderColumn = {
+export type PaymentColumn = {
    id: string
-   isPaid: string
-   payable: string
    number: string
+   isSuccessful: string
+   payable: string
+   status: string
    createdAt: string
 }
 
-export const columns: ColumnDef<OrderColumn>[] = [
+export const columns: ColumnDef<PaymentColumn>[] = [
    {
       accessorKey: 'number',
-      header: 'Order Number',
+      header: 'Payment Number',
    },
    {
       accessorKey: 'date',
@@ -25,8 +26,8 @@ export const columns: ColumnDef<OrderColumn>[] = [
       header: 'Payable',
    },
    {
-      accessorKey: 'isPaid',
-      header: 'Paid',
+      accessorKey: 'isSuccessful',
+      header: 'Successful',
    },
    {
       id: 'actions',

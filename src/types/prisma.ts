@@ -44,7 +44,7 @@ export type OrderWithIncludes = Prisma.OrderGetPayload<{
             orders: true
          }
       }
-      payment: {
+      payments: {
          include: {
             provider: true
          }

@@ -9,13 +9,20 @@ import {
    AccordionItem,
    AccordionTrigger,
 } from '@/components/ui/accordion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+   Card,
+   CardContent,
+   CardFooter,
+   CardHeader,
+   CardTitle,
+} from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import type { OrderColumn } from '../components/columns'
 import { formatter } from '@/lib/utils'
 import { format } from 'date-fns'
 import { OrderClient } from '../components/client'
+import Link from 'next/link'
 
 const ProductPage = async ({ params }: { params: { orderId: string } }) => {
    const order = await prisma.order.findUnique({
@@ -32,7 +39,7 @@ const ProductPage = async ({ params }: { params: { orderId: string } }) => {
                orders: true,
             },
          },
-         payment: {
+         payments: {
             include: {
                provider: true,
             },
@@ -42,61 +49,60 @@ const ProductPage = async ({ params }: { params: { orderId: string } }) => {
       },
    })
 
-   function Orders() {
-      const {
-         user: { orders },
-      } = order
-
-      const formattedOrders: OrderColumn[] = orders.map((order) => ({
-         id: order.id,
-         number: `Order #${order.number}`,
-         date: order.createdAt.toUTCString(),
-         totalPrice: order.payable.toString(),
-         isPaid: order.isPaid ? 'Yes.' : 'No.',
-         createdAt: format(order.createdAt, 'MMMM do, yyyy'),
-      }))
-
+   function UserCard() {
       return (
-         <div className="block gap-2">
-            <div className="grid w-full items-center gap-1.5">
-               <Label htmlFor="name">Name</Label>
-               <Input disabled id="name" value={order?.user?.name} />
-            </div>
-            <div className="grid w-full items-center gap-1.5">
-               <Label htmlFor="name">Email</Label>
-               <Input disabled id="name" value={order?.user?.email} />
-            </div>
-            <div className="grid w-full items-center gap-1.5">
-               <Label htmlFor="phone">Phone</Label>
-               <Input disabled id="phone" value={order?.user?.phone} />
-            </div>
-            <div className="grid w-full items-center gap-1.5">
-               <Accordion
-                  key={order?.id}
-                  type="single"
-                  collapsible
-                  className="w-full"
-               >
-                  <AccordionItem value="item-1">
+         <Card className="my-4 p-2 bg-muted-foreground/5">
+            <CardContent>
+               <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="item-2">
                      <AccordionTrigger>
                         <div className="block">
-                           <h2 className="text-lg text-left">Order Items</h2>
+                           <h2 className="text-lg font-bold tracking-wider text-left">
+                              USER
+                           </h2>
                            <p className="text-sm font-light text-foreground/70">
-                              Items in this order.
+                              User in this order.
                            </p>
                         </div>
                      </AccordionTrigger>
                      <AccordionContent>
-                        <OrderClient data={formattedOrders} />
+                        <div className="block space-y-4">
+                           <div className="grid w-full items-center">
+                              <h3>Name</h3>
+                              <p className="text-muted-foreground">
+                                 {order?.user?.name}
+                              </p>
+                           </div>
+                           <div className="grid w-full items-center">
+                              <h3>Email</h3>
+                              <p className="text-muted-foreground">
+                                 {order?.user?.email}
+                              </p>
+                           </div>
+                           <div className="grid w-full items-center">
+                              <h3>Phone</h3>
+                              <p className="text-muted-foreground">
+                                 {order?.user?.phone}
+                              </p>
+                           </div>
+                        </div>
                      </AccordionContent>
                   </AccordionItem>
                </Accordion>
-            </div>
-         </div>
+            </CardContent>
+            <CardFooter>
+               <Link
+                  href={`/users/${order?.user?.id}`}
+                  className="text-sm underline text-muted-foreground transition-colors hover:text-primary"
+               >
+                  Visit this user's profile.
+               </Link>
+            </CardFooter>
+         </Card>
       )
    }
 
-   function UserCard() {
+   function EditOrderCard() {
       return (
          <Card className="my-4 p-2">
             <CardContent>
@@ -104,14 +110,16 @@ const ProductPage = async ({ params }: { params: { orderId: string } }) => {
                   <AccordionItem value="item-2">
                      <AccordionTrigger>
                         <div className="block">
-                           <h2 className="text-lg text-left">User</h2>
+                           <h2 className="text-lg font-bold tracking-wider text-left">
+                              EDIT ORDER
+                           </h2>
                            <p className="text-sm font-light text-foreground/70">
                               User in this order.
                            </p>
                         </div>
                      </AccordionTrigger>
                      <AccordionContent>
-                        <Orders />
+                        <OrderForm initialData={order} />
                      </AccordionContent>
                   </AccordionItem>
                </Accordion>
@@ -130,7 +138,7 @@ const ProductPage = async ({ params }: { params: { orderId: string } }) => {
                />
             </div>
             <UserCard />
-            <OrderForm initialData={order} />
+            <EditOrderCard />
          </div>
       </div>
    )

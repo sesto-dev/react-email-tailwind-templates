@@ -54,8 +54,6 @@ export const OrderForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
    const [loading, setLoading] = useState(false)
 
-   const title = 'Edit order'
-   const description = 'Edit an order.'
    const toastMessage = 'Order updated.'
    const action = 'Save changes'
 
@@ -64,7 +62,7 @@ export const OrderForm: React.FC<ProductFormProps> = ({ initialData }) => {
            ...initialData,
         }
       : {
-           status: '',
+           status: '---',
            shipping: 0,
            payable: 0,
            discount: 0,
@@ -106,117 +104,109 @@ export const OrderForm: React.FC<ProductFormProps> = ({ initialData }) => {
    }
 
    return (
-      <>
-         <div className="flex items-center justify-between">
-            <Heading title={title} description={description} />
-         </div>
-         <Separator />
-         <Form {...form}>
-            <form
-               onSubmit={form.handleSubmit(onSubmit)}
-               className="space-y-8 w-full"
-            >
-               <div>
-                  <FormField
-                     control={form.control}
-                     name="shipping"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Price</FormLabel>
-                           <FormControl>
-                              <Input
-                                 type="number"
-                                 disabled={loading}
-                                 placeholder="9.99"
-                                 {...field}
-                              />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-                  <FormField
-                     control={form.control}
-                     name="payable"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Discount</FormLabel>
-                           <FormControl>
-                              <Input
-                                 type="number"
-                                 disabled={loading}
-                                 placeholder="9.99"
-                                 {...field}
-                              />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-                  <FormField
-                     control={form.control}
-                     name="discount"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Discount</FormLabel>
-                           <FormControl>
-                              <Input
-                                 type="number"
-                                 disabled={loading}
-                                 placeholder="9.99"
-                                 {...field}
-                              />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-                  <FormField
-                     control={form.control}
-                     name="isPaid"
-                     render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                           <FormControl>
-                              <Checkbox
-                                 checked={field.value}
-                                 onCheckedChange={field.onChange}
-                              />
-                           </FormControl>
-                           <div className="space-y-1 leading-none">
-                              <FormLabel>Featured</FormLabel>
-                              <FormDescription>
-                                 This product will appear on the home page
-                              </FormDescription>
-                           </div>
-                        </FormItem>
-                     )}
-                  />
-                  <FormField
-                     control={form.control}
-                     name="isCompleted"
-                     render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                           <FormControl>
-                              <Checkbox
-                                 checked={field.value}
-                                 onCheckedChange={field.onChange}
-                              />
-                           </FormControl>
-                           <div className="space-y-1 leading-none">
-                              <FormLabel>Available</FormLabel>
-                              <FormDescription>
-                                 This product will appear in the store.
-                              </FormDescription>
-                           </div>
-                        </FormItem>
-                     )}
-                  />
-               </div>
-               <Button disabled={loading} className="ml-auto" type="submit">
-                  {action}
-               </Button>
-            </form>
-         </Form>
-      </>
+      <Form {...form}>
+         <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="block space-y-2 w-full"
+         >
+            <FormField
+               control={form.control}
+               name="shipping"
+               render={({ field }) => (
+                  <FormItem>
+                     <FormLabel>Price</FormLabel>
+                     <FormControl>
+                        <Input
+                           type="number"
+                           disabled={loading}
+                           placeholder="9.99"
+                           {...field}
+                        />
+                     </FormControl>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
+            <FormField
+               control={form.control}
+               name="payable"
+               render={({ field }) => (
+                  <FormItem>
+                     <FormLabel>Discount</FormLabel>
+                     <FormControl>
+                        <Input
+                           type="number"
+                           disabled={loading}
+                           placeholder="9.99"
+                           {...field}
+                        />
+                     </FormControl>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
+            <FormField
+               control={form.control}
+               name="discount"
+               render={({ field }) => (
+                  <FormItem>
+                     <FormLabel>Discount</FormLabel>
+                     <FormControl>
+                        <Input
+                           type="number"
+                           disabled={loading}
+                           placeholder="9.99"
+                           {...field}
+                        />
+                     </FormControl>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
+            <FormField
+               control={form.control}
+               name="isPaid"
+               render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                     <FormControl>
+                        <Checkbox
+                           checked={field.value}
+                           onCheckedChange={field.onChange}
+                        />
+                     </FormControl>
+                     <div className="space-y-1 leading-none">
+                        <FormLabel>Featured</FormLabel>
+                        <FormDescription>
+                           This product will appear on the home page
+                        </FormDescription>
+                     </div>
+                  </FormItem>
+               )}
+            />
+            <FormField
+               control={form.control}
+               name="isCompleted"
+               render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                     <FormControl>
+                        <Checkbox
+                           checked={field.value}
+                           onCheckedChange={field.onChange}
+                        />
+                     </FormControl>
+                     <div className="space-y-1 leading-none">
+                        <FormLabel>Available</FormLabel>
+                        <FormDescription>
+                           This product will appear in the store.
+                        </FormDescription>
+                     </div>
+                  </FormItem>
+               )}
+            />
+            <Button disabled={loading} className="ml-auto" type="submit">
+               {action}
+            </Button>
+         </form>
+      </Form>
    )
 }

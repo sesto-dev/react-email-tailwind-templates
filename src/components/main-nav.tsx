@@ -15,32 +15,37 @@ export function MainNav({
       {
          href: `/billboards`,
          label: 'Billboards',
-         active: pathname === `/billboards`,
+         active: pathname.includes(`/billboards`),
       },
       {
          href: `/categories`,
          label: 'Categories',
-         active: pathname === `/categories`,
+         active: pathname.includes(`/categories`),
       },
       {
          href: `/products`,
          label: 'Products',
-         active: pathname === `/products`,
+         active: pathname.includes(`/products`),
       },
       {
          href: `/orders`,
          label: 'Orders',
-         active: pathname === `/orders`,
+         active: pathname.includes(`/orders`),
+      },
+      {
+         href: `/payments`,
+         label: 'Payments',
+         active: pathname.includes(`/payments`),
       },
       {
          href: `/users`,
          label: 'Users',
-         active: pathname === `/users`,
+         active: pathname.includes(`/users`),
       },
       {
          href: `/codes`,
          label: 'Codes',
-         active: pathname === `/codes`,
+         active: pathname.includes(`/codes`),
       },
    ]
 
@@ -54,10 +59,10 @@ export function MainNav({
                key={route.href}
                href={route.href}
                className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary',
+                  'text-sm transition-colors hover:text-primary',
                   route.active
-                     ? 'text-black dark:text-white'
-                     : 'text-muted-foreground'
+                     ? 'font-semibold'
+                     : 'font-light text-muted-foreground'
                )}
             >
                {route.label}
