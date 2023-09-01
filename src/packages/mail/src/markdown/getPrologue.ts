@@ -1,7 +1,5 @@
-import Config from "@/config/site";
-
-export default function getPrologue({ subject }) {
-  return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+export default function getPrologue({ name, subject }) {
+   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml">
 			<head>
 				<meta
@@ -257,6 +255,6 @@ export default function getPrologue({ subject }) {
 												<tr>
 													<td>
 														<h1>
-															${Config.name}
-														</h1>`;
+															${name}
+														</h1>`
 }

@@ -1,5 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# packages
+/src/packages/mail/node_modules
+/src/packages/mail/dist
+
 # dependencies
 /node_modules
 /.pnp

@@ -1,7 +1,5 @@
-import Config from "@/config/site";
-
-export default function getEpilogue({ unsubscribe_url }) {
-  return `<p>Regards, ${Config.name}.</p>
+export default function getEpilogue({ name, unsubscribe_url }) {
+   return `<p>Regards, ${name}.</p>
 											</td>
 										</tr>
 									</table>
@@ -55,5 +53,5 @@ export default function getEpilogue({ unsubscribe_url }) {
 		</table>
 	</body>
 </html>
-`;
+`
 }
