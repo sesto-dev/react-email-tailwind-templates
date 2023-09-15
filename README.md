@@ -1,32 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Screenshot](https://github.com/Accretence/next-prisma-tailwind-ecommerce/assets/45223699/00444538-a496-4f90-814f-7e57a580ad17)
 
-![Screenshot](https://i.imgur.com/slXg0kN.jpg)
+<div align="center"><h3>Full-Stack E-Commerce Platform</h3><p>Built using Typescript with Next.js, Prisma ORM and TailwindCSS.</p></div>
+<div align="center">
+<a href="https://pasargad.vercel.app">Storefront</a> 
+<span> · </span>
+<a href="https://pardis.vercel.app">Admin Panel</a>
+</div>
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+Welcome to the open-source Next.js E-Commerce Storefront with Admin Panel project! This project is built with TypeScript, Tailwind CSS, and Prisma, providing a powerful and flexible solution for building and managing your e-commerce website.
 
-```bash
+## Features
+
+-  **Next.js Framework**: A popular React framework for building server-rendered React applications.
+-  **TypeScript**: Strongly typed codebase for improved maintainability.
+-  **Tailwind CSS**: A utility-first CSS framework for rapidly building custom designs.
+-  **Prisma**: An open-source database toolkit for Node.js that simplifies database access with type-safe queries.
+-  **E-Commerce Functionality**: Implement and manage product listings, shopping cart, and orders.
+-  **Admin Panel**: A user-friendly admin panel for managing products, orders, and customers.
+-  **Authentication**: Secure user authentication for both customers and administrators.
+-  **Responsive Design**: Mobile-friendly storefront for an optimal shopping experience.
+
+## Development
+
+Navigate to each of 2 apps inside the `apps` folder and go steps below:
+
+#### Install dependencies
+
+```sh
+yarn install
+```
+
+#### Build and run packages
+
+```sh
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Authentication
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+The authentication is handled using JWT tokens stored in cookies and verified inside the `middleware.ts` file. The middleware function takes in the HTTP request, reads the `token` cookie and if the JWT is successfully verified, it sets the `X-USER-ID` header with the userId as the value, otherwise the request is sent back with 401 status.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Authors
 
-## Learn More
+-  Amirhossein Mohammadi ([@accretence](https://accretence.com))
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+MIT License
