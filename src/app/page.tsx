@@ -1,5 +1,11 @@
-import { Fragment } from 'react'
+import { getEmails } from '../utils/get-emails';
+import Home from './home';
 
-export default function Page() {
-   return <Fragment />
+export default async function Index() {
+  const { emails } = await getEmails();
+  return <Home navItems={emails} />;
 }
+
+export const metadata = {
+  title: 'React Email',
+};

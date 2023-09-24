@@ -1,8 +1,9 @@
+import '../src/styles/globals.css'
 import {
    Body,
    Button,
-   Container,
    Column,
+   Container,
    Head,
    Heading,
    Hr,
@@ -15,8 +16,6 @@ import {
    Tailwind,
    Text,
 } from '@react-email/components'
-import '@/app/globals.css'
-
 import React from 'react'
 
 interface Props {

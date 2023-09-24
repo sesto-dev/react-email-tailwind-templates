@@ -1,9 +1,9 @@
-import React from 'react'
+import '../src/styles/globals.css'
 import {
    Body,
    Button,
-   Container,
    Column,
+   Container,
    Head,
    Heading,
    Hr,
@@ -16,10 +16,10 @@ import {
    Tailwind,
    Text,
 } from '@react-email/components'
-import '@/app/globals.css'
+import React from 'react'
 
 const order = {
-   orderNumber: '123456789',
+   orderId: '123456789',
    orderDate: '2023-09-14',
    billingInfo: {
       name: 'John Doe',
@@ -104,18 +104,18 @@ const OrderInvoiceEmail = () => {
                   <h1 className="text-2xl font-semibold mb-4">Order Invoice</h1>
                   <div className="flex justify-between mb-4">
                      <div>
-                        <h2 className="text-lg font-semibold">Order #:</h2>
-                        <p>{order.orderNumber}</p>
+                        <h2 className="text-lg font-semibold">Order ID</h2>
+                        <p>{order.orderId}</p>
                      </div>
                      <div>
-                        <h2 className="text-lg font-semibold">Order Date:</h2>
+                        <h2 className="text-lg font-semibold">Order Date</h2>
                         <p>{order.orderDate}</p>
                      </div>
                   </div>
 
                   <div className="mb-4">
                      <h2 className="text-lg font-semibold">
-                        Billing Information:
+                        Billing Information
                      </h2>
                      <p>{order.billingInfo.name}</p>
                      <p>{order.billingInfo.address}</p>
@@ -128,7 +128,7 @@ const OrderInvoiceEmail = () => {
 
                   <div className="mb-4">
                      <h2 className="text-lg font-semibold">
-                        Shipping Information:
+                        Shipping Information
                      </h2>
                      <p>{order.shippingInfo.name}</p>
                      <p>{order.shippingInfo.address}</p>
@@ -139,7 +139,7 @@ const OrderInvoiceEmail = () => {
                   </div>
 
                   <div>
-                     <h2 className="text-lg font-semibold">Order Summary:</h2>
+                     <h2 className="text-lg font-semibold">Order Summary</h2>
                      <table className="w-full mt-2">
                         <thead className="text-left">
                            <tr>
