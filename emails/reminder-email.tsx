@@ -19,8 +19,7 @@ import {
     fromEmail: string
   }
   
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL ?? "https://scribbly.subhambharadwaz.in"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL
   
   export default function ReminderEmail({
     firstName = "there",
@@ -41,11 +40,11 @@ import {
                 src="https://scribbly.s3.ap-south-1.amazonaws.com/logo_bqjpan.webp"
                 width="70"
                 height="50"
-                alt="Scribbly"
+                alt=""
                 className="mx-auto my-0"
               />
               <Text className="-mt-3 text-center text-2xl font-bold text-purple-600">
-                Scribbly
+                Accretence
               </Text>
   
               <Section className="mt-4">
@@ -132,7 +131,7 @@ import {
                   </Link>
                 </Text>
                 <Text className="mb-0 mt-4">
-                  @ Scribbly {new Date().getFullYear()}
+                  @ Accretence {new Date().getFullYear()}
                 </Text>
               </Section>
             </Container>
